@@ -1,0 +1,16 @@
+{
+  "name": "Golf",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "native-base": "^0.3.0",
+    "react": "^0.14.8",
+    "react-native": "^0.25.1",
+    "react-native-router-redux": "^0.2.2",
+    "react-native-slider": "^0.7.0",
+    "react-native-vector-icons": "^2.0.0"
+  }
+}
