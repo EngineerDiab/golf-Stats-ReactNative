@@ -3,7 +3,7 @@
  * https://github.com/facebook/react-native
  * @flow
  */
-import {Container, Content, Header, Title} from 'native-base';
+import {Container, Content, Header, Title, Button, Icon} from 'native-base';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import React, { Component } from 'react';
 import FullStrokeSlider from './Components/sliders/FullStrokeSlider';
@@ -12,6 +12,9 @@ import PutsSlider from './Components/sliders/PutsSlider';
 import FirstPutSlider from './Components/sliders/FirstPutSlider';
 import PenaltiesSlider from './Components/sliders/PenaltiesSlider';
 import ListViewPaging from './Components/ListViewPaging/ListViewPaging';
+import FairwayButtonLeft from './Components/FairwayButtons/FairwayButtonLeft';
+import FairwayButtonRight from './Components/FairwayButtons/FairwayButtonRight';
+import FairwayButtonStraight from './Components/FairwayButtons/FairwayButtonStraight';
 import {
   AppRegistry,
   TabBarIOS,
@@ -46,14 +49,27 @@ class Golf extends Component {
               <Title>Hole 1</Title>
             </Header>
             <Content>
-              <FullStrokeSlider style={styles.sliderBlock} />
-              <HalfStrokeSlider />
-              <PutsSlider />
-              <FirstPutSlider />
-              <PenaltiesSlider />
               <Grid>
-                <Col style={{ backgroundColor: 'red', height: 200 }}></Col>
-                <Col style={{ backgroundColor: '#4C746B', height: 200  }}></Col>
+                <Row>
+                  <Col>
+                    <FullStrokeSlider />
+                    <HalfStrokeSlider />
+                    <PutsSlider />
+                    <FirstPutSlider />
+                    <PenaltiesSlider />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <FairwayButtonLeft/>
+                  </Col>
+                  <Col>
+                    <FairwayButtonStraight />
+                  </Col>
+                  <Col>
+                    <FairwayButtonRight />
+                  </Col>
+                </Row>
               </Grid>
             </Content>
           </Container>
@@ -85,7 +101,9 @@ const styles = StyleSheet.create({
     //alignItems:'center'
   },
   sliderBlock: {
-    flex: 1
+    flex: 1,
+    marginLeft: 10,
+    marginRight: 10
 
   },
   tabText:{
