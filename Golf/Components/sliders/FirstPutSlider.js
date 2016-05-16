@@ -1,5 +1,3 @@
-//'use strict';
-
 var React = require('react');
 var Slider = require('react-native-slider');
 var {
@@ -8,7 +6,7 @@ var {
   Text,
 } = require('react-native');
 
-var FullStrokeSlider = React.createClass({
+var FirstPutSlider = React.createClass({
   getInitialState() {
     return {
       value: 0,
@@ -18,11 +16,11 @@ var FullStrokeSlider = React.createClass({
   render() {
     return (
       <View style={styles.container}>
-        <Text>Full Strokes: {this.state.value}</Text>
+        <Text>First Put Distance: {this.state.value}</Text>
         <Slider
           value={this.state.value}
           minimumValue = {0}
-          maximumValue = {3}
+          maximumValue = {50}
           step = {1}
           onValueChange={(value) => this.setState({value})} />
 
@@ -42,4 +40,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = FullStrokeSlider;
+module.exports = FirstPutSlider;

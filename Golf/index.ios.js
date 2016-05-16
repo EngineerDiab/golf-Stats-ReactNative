@@ -6,6 +6,10 @@
 //import {Container, Header, Content, Footer, Title, Icon} from 'native-base';
 import React, { Component } from 'react';
 import FullStrokeSlider from './Components/sliders/FullStrokeSlider';
+import HalfStrokeSlider from './Components/sliders/HalfStrokeSlider';
+import PutsSlider from './Components/sliders/PutsSlider';
+import FirstPutSlider from './Components/sliders/FirstPutSlider';
+import PenaltiesSlider from './Components/sliders/PenaltiesSlider';
 import {
   AppRegistry,
   TabBarIOS,
@@ -29,29 +33,32 @@ class Golf extends Component {
           selected={this.state.selectedTab === 'tabOne'}
           onPress={()=>this.setTab('tabOne')}>
           <View style={styles.tabContent}>
-            <Text style={styles.tabText}>Tab One baby</Text>
-            <FullStrokeSlider></FullStrokeSlider>
+            <Text style={styles.tabText}>Tab One</Text>
           </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item systemIcon="favorites"
           selected={this.state.selectedTab === 'tabTwo'}
           onPress={()=>this.setTab('tabTwo')}>
           <View style={styles.tabContent}>
-            <Text style={styles.tabText}>Tab Two baby</Text>
+            <FullStrokeSlider />
+            <HalfStrokeSlider />
+            <PutsSlider />
+            <FirstPutSlider />
+            <PenaltiesSlider />
           </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item systemIcon="history"
           selected={this.state.selectedTab === 'tabThree'}
           onPress={()=>this.setTab('tabThree')}>
           <View style={styles.tabContent}>
-            <Text style={styles.tabText}>Tab Three baby</Text>
+            <Text style={styles.tabText}>Tab Three</Text>
           </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item systemIcon="more"
           selected={this.state.selectedTab === 'tabFour'}
           onPress={()=>this.setTab('tabFour')}>
           <View style={styles.tabContent}>
-            <Text style={styles.tabText}>Tab Four baby</Text>
+            <Text style={styles.tabText}>Tab Four</Text>
           </View>
         </TabBarIOS.Item>
       </TabBarIOS>
@@ -64,7 +71,7 @@ class Golf extends Component {
 const styles = StyleSheet.create({
   tabContent: {
     flex:1,
-    alignItems:'center'
+    //alignItems:'center'
   },
   tabText:{
     margin:50,
