@@ -3,13 +3,15 @@
  * https://github.com/facebook/react-native
  * @flow
  */
-//import {Container, Header, Content, Footer, Title, Icon} from 'native-base';
+import {Container, Content, Header, Title} from 'native-base';
+import { Col, Row, Grid } from "react-native-easy-grid";
 import React, { Component } from 'react';
 import FullStrokeSlider from './Components/sliders/FullStrokeSlider';
 import HalfStrokeSlider from './Components/sliders/HalfStrokeSlider';
 import PutsSlider from './Components/sliders/PutsSlider';
 import FirstPutSlider from './Components/sliders/FirstPutSlider';
 import PenaltiesSlider from './Components/sliders/PenaltiesSlider';
+import ListViewPaging from './Components/ListViewPaging/ListViewPaging';
 import {
   AppRegistry,
   TabBarIOS,
@@ -33,19 +35,28 @@ class Golf extends Component {
           selected={this.state.selectedTab === 'tabOne'}
           onPress={()=>this.setTab('tabOne')}>
           <View style={styles.tabContent}>
-            <Text style={styles.tabText}>Tab One</Text>
+            <ListViewPaging />
           </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item systemIcon="favorites"
           selected={this.state.selectedTab === 'tabTwo'}
           onPress={()=>this.setTab('tabTwo')}>
-          <View style={styles.tabContent}>
-            <FullStrokeSlider />
-            <HalfStrokeSlider />
-            <PutsSlider />
-            <FirstPutSlider />
-            <PenaltiesSlider />
-          </View>
+          <Container>
+            <Header>
+              <Title>Hole 1</Title>
+            </Header>
+            <Content>
+              <FullStrokeSlider style={styles.sliderBlock} />
+              <HalfStrokeSlider />
+              <PutsSlider />
+              <FirstPutSlider />
+              <PenaltiesSlider />
+              <Grid>
+                <Col style={{ backgroundColor: 'red', height: 200 }}></Col>
+                <Col style={{ backgroundColor: '#4C746B', height: 200  }}></Col>
+              </Grid>
+            </Content>
+          </Container>
         </TabBarIOS.Item>
         <TabBarIOS.Item systemIcon="history"
           selected={this.state.selectedTab === 'tabThree'}
@@ -72,6 +83,10 @@ const styles = StyleSheet.create({
   tabContent: {
     flex:1,
     //alignItems:'center'
+  },
+  sliderBlock: {
+    flex: 1
+
   },
   tabText:{
     margin:50,

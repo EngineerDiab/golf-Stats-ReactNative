@@ -15,6 +15,7 @@ var FullStrokeSlider = React.createClass({
     };
   },
 
+
   render() {
     return (
       <View style={styles.container}>
