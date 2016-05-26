@@ -33,7 +33,7 @@ var Hole = React.createClass({
       UIManager.setLayoutAnimationEnabledExperimental(true);
   },
   _getHoleIdx: function() {
-    return holeNumber[8];
+    return holeNumber[2];
   },
   _onPressHole: function() {
     var config = layoutAnimationConfigs[this.state.holeIndex % layoutAnimationConfigs.length];
