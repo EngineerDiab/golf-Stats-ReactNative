@@ -7,6 +7,7 @@
  import {AppRegistry, Text} from 'react-native';
  import {Scene, Router} from 'react-native-router-flux';
  import holeListView from './Scenes/holeListView';
+ import statsView from './Scenes/statsView';
 
  class TabIcon extends React.Component {
     render(){
@@ -27,6 +28,7 @@
             <Scene key="home" component={holeListView} title="Potato" icon={TabIcon}/>
             <Scene key="Poop" component={holeListView} title="Poop" icon={TabIcon}/>
           </Scene>
+          <Scene key="stats" component={statsView} title='Stats'/>
        </Scene>
      </Router>
    );

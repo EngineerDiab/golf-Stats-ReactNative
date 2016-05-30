@@ -1,130 +1,63 @@
-// import {Container, Content, Header, Title, Button, Icon} from 'native-base';
-// import { Col, Row, Grid } from "react-native-easy-grid";
+
 import React, { Component } from 'react';
-// import FullStrokeSlider from './Components/sliders/FullStrokeSlider';
-// import HalfStrokeSlider from './Components/sliders/HalfStrokeSlider';
-// import PutsSlider from './Components/sliders/PutsSlider';
-// import FirstPutSlider from './Components/sliders/FirstPutSlider';
-// import PenaltiesSlider from './Components/sliders/PenaltiesSlider';
-// import ListViewPaging from './Components/ListViewPaging/ListViewPaging';
-// import FairwayButtonLeft from './Components/FairwayButtons/FairwayButtonLeft';
-// import FairwayButtonRight from './Components/FairwayButtons/FairwayButtonRight';
-// import FairwayButtonStraight from './Components/FairwayButtons/FairwayButtonStraight';
+import {Actions} from 'react-native-router-flux';
 import {
-  AppRegistry,
-  TabBarIOS,
-  StyleSheet,
   Text,
   View,
   ListView,
-  ScrollView,
   TouchableHighlight,
-  Image,
+  StyleSheet,
 } from 'react-native'
 
 export default class holeListView extends Component {
-  constructor () {
-  super();
+  constructor (props) {
+  super(props);
   var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   this.state = {
-    dataSource: ds.cloneWithRows(['row1', 'row2'])
-  };
-}
-
-
-render() {
-  return (
-    <ListView
-      dataSource={this.state.dataSource}
-      renderRow={(rowData) => <Text>{rowData}</Text>}
-    />
-  );
-}
-}
-//   constructor(){
-//     super();
-//     this.state = {selectedTab: 'tabOne'}
-//   }
-//   setTab(tabId){
-//     this.setState({selectedTab: tabId})
-//   }
-//   render(){
-//     return(
-//       <TabBarIOS>
-//         <TabBarIOS.Item systemIcon="history"
-//           selected={this.state.selectedTab === 'tabOne'}
-//           onPress={()=>this.setTab('tabOne')}>
-//           <View style={styles.tabContent}>
-//             <ListViewPaging />
-//           </View>
-//         </TabBarIOS.Item>
-//         <TabBarIOS.Item systemIcon="favorites"
-//           selected={this.state.selectedTab === 'tabTwo'}
-//           onPress={()=>this.setTab('tabTwo')}>
-//           <Container>
-//             <Header>
-//               <Title>Hole 1</Title>
-//             </Header>
-//             <Content>
-//               <Grid>
-//                 <Row>
-//                   <Col>
-//                     <FullStrokeSlider />
-//                     <HalfStrokeSlider />
-//                     <PutsSlider />
-//                     <FirstPutSlider />
-//                     <PenaltiesSlider />
-//                   </Col>
-//                 </Row>
-//                 <Row>
-//                   <Col>
-//                     <FairwayButtonLeft/>
-//                   </Col>
-//                   <Col>
-//                     <FairwayButtonStraight />
-//                   </Col>
-//                   <Col>
-//                     <FairwayButtonRight />
-//                   </Col>
-//                 </Row>
-//               </Grid>
-//             </Content>
-//           </Container>
-//         </TabBarIOS.Item>
-//         <TabBarIOS.Item systemIcon="history"
-//           selected={this.state.selectedTab === 'tabThree'}
-//           onPress={()=>this.setTab('tabThree')}>
-//           <View style={styles.tabContent}>
-//             <Text style={styles.tabText}>Tab Three</Text>
-//           </View>
-//         </TabBarIOS.Item>
-//         <TabBarIOS.Item systemIcon="more"
-//           selected={this.state.selectedTab === 'tabFour'}
-//           onPress={()=>this.setTab('tabFour')}>
-//           <View style={styles.tabContent}>
-//             <Text style={styles.tabText}>Tab Four</Text>
-//           </View>
-//         </TabBarIOS.Item>
-//       </TabBarIOS>
-//     );
-//   }
-// }
-//
-//
-//
-const styles = StyleSheet.create({
-  tabContent: {
-    flex:1,
-    alignItems:'center'
-  },
-  sliderBlock: {
-    flex: 1,
-    marginLeft: 10,
-    marginRight: 10
-
-  },
-  tabText:{
-    margin:50,
-    fontSize:45
+    dataSource: ds.cloneWithRows(['1', '2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18'])
+    };
   }
-});
+
+  renderRow(rowData){
+    return(
+      <TouchableHighlight
+        onPress={Actions.stats}
+        activeOpacity={75 / 100}
+        underlayColor={"rgb(210,210,210)"}>
+        <View>
+          <View style={styles.row}>
+            <Text>{rowData}</Text>
+          </View>
+          <View style={styles.seperator}></View>
+        </View>
+      </TouchableHighlight>
+    )
+  }
+
+  render(){
+    return(
+      <ListView
+      dataSource={this.state.dataSource}
+      renderRow={this.renderRow.bind(this)}
+      style={styles.listView}
+    />
+
+  )
+  }
+}
+
+var styles = StyleSheet.create({
+  row:{
+    flexDirection:'row',
+    padding: 12,
+    height:44
+  },
+  seperator:{
+    height:1,
+    backgroundColor: "#CCCCCC"
+  },
+  listView: {
+    marginTop:64,
+    marginBottom:49
+  }
+})
