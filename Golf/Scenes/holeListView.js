@@ -18,10 +18,13 @@ export default class holeListView extends Component {
     };
   }
 
-  renderRow(rowData){
+
+  renderRow(rowData, sectionID, rowID){
+    var parsedRowID = parseInt(rowID, 10)
+    var realRowID = parsedRowID + 1
     return(
       <TouchableHighlight
-        onPress={Actions.stats}
+        onPress={() => Actions.stats({holeNumber: realRowID})}
         activeOpacity={75 / 100}
         underlayColor={"rgb(210,210,210)"}>
         <View>
@@ -58,6 +61,7 @@ var styles = StyleSheet.create({
   },
   listView: {
     marginTop:64,
-    marginBottom:49
+    marginBottom:49,
+    padding: 20
   }
 })

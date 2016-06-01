@@ -28,7 +28,7 @@
             <Scene key="home" component={holeListView} title="Potato" icon={TabIcon}/>
             <Scene key="Poop" component={holeListView} title="Poop" icon={TabIcon}/>
           </Scene>
-          <Scene key="stats" component={statsView} title='Stats'/>
+          <Scene key="stats" component={statsView} title="Stats"/>
        </Scene>
      </Router>
    );

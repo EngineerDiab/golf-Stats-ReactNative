@@ -1,7 +1,9 @@
 import { ToggleContainer, ToggleItem } from 'deco-ride-share-demo'
 import React, { Component } from 'react';
 import { Col, Row, Grid } from "react-native-easy-grid";
+import {Actions} from 'react-native-router-flux';
 var Slider = require('react-native-slider');
+var Button = require('react-native-button');
 
 
 import {
@@ -22,6 +24,12 @@ export default class statsView extends Component {
       penalties:0,
       firstPutDistance:0
     };
+  }
+
+  _handlePress(){
+    this.setState(this.getInitialState());
+    alert('Stats saved!')
+    Actions.pop({txt: "hello"})
   }
 
   render(){
@@ -177,6 +185,13 @@ export default class statsView extends Component {
             />
           )}
         />
+        <Button
+        style={{fontSize: 20, color: 'green'}}
+        styleDisabled={{color: 'red'}}
+        onPress={this._handlePress}
+        >
+        Save Stats for hole {this.props.holeNumber}
+      </Button>
       </View>
 
   )
