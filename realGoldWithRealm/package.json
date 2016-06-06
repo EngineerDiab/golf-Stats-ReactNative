@@ -1,0 +1,17 @@
+{
+  "name": "realGoldWithRealm",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "deco-ride-share-demo": "^1.1.0",
+    "react": "15.0.2",
+    "react-native": "^0.26.3",
+    "react-native-button": "^1.6.0",
+    "react-native-router-flux": "^3.26.16",
+    "react-native-slider": "^0.8.0",
+    "realm": "^0.13.2"
+  }
+}

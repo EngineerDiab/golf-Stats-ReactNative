@@ -1,9 +1,9 @@
 import { ToggleContainer, ToggleItem } from 'deco-ride-share-demo'
 import React, { Component } from 'react';
-import { Col, Row, Grid } from "react-native-easy-grid";
 import {Actions} from 'react-native-router-flux';
 var Slider = require('react-native-slider');
 var Button = require('react-native-button');
+import realm from './realm';
 
 
 import {
@@ -27,10 +27,23 @@ export default class statsView extends Component {
   }
 
   _handlePress(){
-    this.setState(this.getInitialState());
+    realm.write(() => {
+      let hole = realm.create('Hole', {
+        number:  this.props.holeNumber,
+        fullStroke: this.state.fullStroke,
+        halfStroke: this.state.halfStroke,
+        puts: this.state.puts,
+        firstPutDistance: this.state.firstPutDistance,
+        penalties: this.state.penalties,
+        fairway: 'On'
+      });
+    });
+    //console.log(realm.objects('Hole'));
+    console.log(realm.objects('Hole').filtered('number = 10').length);
     alert('Stats saved!')
-    Actions.pop({txt: "hello"})
+    Actions.pop()
   }
+
 
   render(){
     return(
@@ -188,7 +201,7 @@ export default class statsView extends Component {
         <Button
         style={{fontSize: 20, color: 'green'}}
         styleDisabled={{color: 'red'}}
-        onPress={this._handlePress}
+        onPress={this._handlePress.bind(this)}
         >
         Save Stats for hole {this.props.holeNumber}
       </Button>

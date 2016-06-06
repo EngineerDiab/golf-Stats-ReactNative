@@ -1,13 +1,16 @@
 
 import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
+import { ListView } from 'realm/react-native';
+import realm from './realm';
 import {
   Text,
   View,
-  ListView,
   TouchableHighlight,
   StyleSheet,
 } from 'react-native'
+
+
 
 export default class holeListView extends Component {
   constructor (props) {
@@ -18,10 +21,10 @@ export default class holeListView extends Component {
     };
   }
 
-
   renderRow(rowData, sectionID, rowID){
     var parsedRowID = parseInt(rowID, 10)
     var realRowID = parsedRowID + 1
+    //var holeInfo = realm.objects('Hole').filter('number = 1')
     return(
       <TouchableHighlight
         onPress={() => Actions.stats({holeNumber: realRowID})}
