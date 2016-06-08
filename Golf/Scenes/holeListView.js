@@ -22,9 +22,12 @@ export default class holeListView extends Component {
   }
 
   renderRow(rowData, sectionID, rowID){
+    var getRowID = function(rowID){
+      return(rowID + 1)
+    }
     var parsedRowID = parseInt(rowID, 10)
     var realRowID = parsedRowID + 1
-    //var holeInfo = realm.objects('Hole').filter('number = 1')
+    //var holeInfo = realm.objects('Hole').filtered('id == {getRowID}')
     return(
       <TouchableHighlight
         onPress={() => Actions.stats({holeNumber: realRowID})}

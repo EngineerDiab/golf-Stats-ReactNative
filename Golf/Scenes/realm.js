@@ -4,8 +4,9 @@ import Realm from 'realm';
 class Hole extends Realm.Object {}
 Hole.schema = {
   name: 'Hole',
+  primaryKey:  'id',
   properties: {
-    number:  'int',
+    id: 'int',
     fullStroke: 'int',
     halfStroke: 'int',
     puts: 'int',
@@ -15,5 +16,16 @@ Hole.schema = {
     },
 };
 
+class Round extends Realm.Object {}
+Round.schema = {
+  name: 'Round',
+  primaryKey: 'id',
+  properties: {
+    id: 'string',
+    done: 'string',
+    holes: {type: 'list', objectType: 'Hole'}
+    },
+};
 
-export default new Realm({schema: [Hole]});
+
+export default new Realm({schema: [Hole, Round]});
