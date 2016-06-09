@@ -20,44 +20,20 @@
 
  class Golf extends React.Component {
    render() {
-     var numberOfHolesPlayed = function(){
-       return (realm.objects('Hole').length)
-     }
-     var currentRound = realm.objects('Round').filtered('done CONTAINS "no"').slice('0','1')
-     var holesArray = realm.objects('Hole').slice('0',realm.objects('Hole').length)
-    //  var addHolesToRound = function(){
-    //    realm.write(() => currentRound.holes.push(object))
-    //  }
-     exportRound = () => {
+    newRound = (props) => {
         let holesObjects = realm.objects('Hole')
           if(holesObjects.length < 9){
-            alert('Enter stats for at least 9 holes please')
+            alert(this.props.round)
           }
           else{
-            //var sortedHoles = holesObjects.sorted('id')
-            //realm.objects('Hole').forEach(addHolesToRound, this)
-            // currentRound[0].holes.push({
-            //   id:  1
-            // })
-            //console.log(holesArray)
-            for(var i = 0; i < realm.objects('Hole').length; i++){
-               realm.write(()=> currentRound[0].holes.push({
-                 id:  holesArray[i].id,
-                 fullStroke: holesArray[i].fullStroke,
-                 halfStroke: holesArray[i].halfStroke,
-                 puts: holesArray[i].puts,
-                 firstPutDistance: holesArray[i].firstPutDistance,
-                 penalties: holesArray[i].penalties,
-                 fairway: 'On'
-               }))
-             }
+            alert('Ok')
           }
         }
      return(
        <Router>
        <Scene key="root">
           <Scene key="tabbar" tabs="true">
-            <Scene key="holeListViewKey" component={holeListView} title="Stats" icon={TabIcon} initial={true} onRight={exportRound.bind()} rightTitle="Reset" />
+            <Scene key="holeListViewKey" component={holeListView} title="Stats" icon={TabIcon} initial={true} onRight={newRound.bind()} rightTitle="Reset" />
             <Scene key="register" component={holeListView} title="Overview" icon={TabIcon}/>
             <Scene key="home" component={holeListView} title="Visualize" icon={TabIcon}/>
           </Scene>

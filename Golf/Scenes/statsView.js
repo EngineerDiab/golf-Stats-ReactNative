@@ -45,48 +45,26 @@ export default class statsView extends Component {
     return today
     }
 
-  _handlePress(){
-    function getID(hole, index){
-      if(hole.id === this.props.holeNumber){
-        return true
-      }
-      else{
-        return false
-      }
+    _createdID(){
+      return(this._getDate() + '-' + this.props.round + '-' + this.props.holeNumberString)
     }
-    mappedBooleanArray = realm.objects('Hole').map(getID, this);
-    if((mappedBooleanArray.indexOf(true) == -1) === false){
-      realm.write(() => {
-        let hole = realm.create('Hole', {
-          id:  this.props.holeNumber,
-          fullStroke: this.state.fullStroke,
-          halfStroke: this.state.halfStroke,
-          puts: this.state.puts,
-          firstPutDistance: this.state.firstPutDistance,
-          penalties: this.state.penalties,
-          fairway: 'On'
-        }, true);
-      })
-    }
-    else{
-      realm.write(() => {
-        let hole = realm.create('Hole', {
-          id:  this.props.holeNumber,
-          fullStroke: this.state.fullStroke,
-          halfStroke: this.state.halfStroke,
-          puts: this.state.puts,
-          firstPutDistance: this.state.firstPutDistance,
-          penalties: this.state.penalties,
-          fairway: 'On'
-        }, true);
-        let round = realm.create('Round', {
-          id: this._getDate(),
-          done: "no",
-        }, true);
 
-        round.holes.push(hole)
-      })
-    }
+  _handlePress(){
+    realm.write(() => {
+      let hole = realm.create('Hole', {
+        id: this._createdID(),
+        date: this._getDate(),
+        round: '1',
+        holeID:  this.props.holeNumberString,
+        fullStroke: this.state.fullStroke,
+        halfStroke: this.state.halfStroke,
+        puts: this.state.puts,
+        firstPutDistance: this.state.firstPutDistance,
+        penalties: this.state.penalties,
+        fairway: 'On'
+      }, true);
+    })
+
     alert('Stats saved!')
     Actions.pop()
   }

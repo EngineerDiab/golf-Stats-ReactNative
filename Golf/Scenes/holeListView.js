@@ -17,20 +17,19 @@ export default class holeListView extends Component {
   super(props);
   var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   this.state = {
+    round: '1',
     dataSource: ds.cloneWithRows(['1', '2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18'])
     };
   }
 
   renderRow(rowData, sectionID, rowID){
-    var getRowID = function(rowID){
-      return(rowID + 1)
-    }
     var parsedRowID = parseInt(rowID, 10)
     var realRowID = parsedRowID + 1
-    //var holeInfo = realm.objects('Hole').filtered('id == {getRowID}')
+    var realRowIDString = realRowID.toString()
+    //console.log(realRowID + 1)
     return(
       <TouchableHighlight
-        onPress={() => Actions.stats({holeNumber: realRowID})}
+        onPress={() => Actions.stats({holeNumber: realRowID, holeNumberString: realRowIDString, round: this.state.round})}
         activeOpacity={75 / 100}
         underlayColor={"rgb(210,210,210)"}>
         <View>
