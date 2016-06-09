@@ -46,7 +46,29 @@ export default class statsView extends Component {
     }
 
   _handlePress(){
-    console.log(realm.objects('Hole').values())
+    function getID(hole, index){
+      if(hole.id === this.props.holeNumber){
+        return true
+      }
+      else{
+        return false
+      }
+    }
+    mappedBooleanArray = realm.objects('Hole').map(getID, this);
+    if((mappedBooleanArray.indexOf(true) == -1) === false){
+      realm.write(() => {
+        let hole = realm.create('Hole', {
+          id:  this.props.holeNumber,
+          fullStroke: this.state.fullStroke,
+          halfStroke: this.state.halfStroke,
+          puts: this.state.puts,
+          firstPutDistance: this.state.firstPutDistance,
+          penalties: this.state.penalties,
+          fairway: 'On'
+        }, true);
+      })
+    }
+    else{
       realm.write(() => {
         let hole = realm.create('Hole', {
           id:  this.props.holeNumber,
@@ -61,23 +83,10 @@ export default class statsView extends Component {
           id: this._getDate(),
           done: "no",
         }, true);
+
+        round.holes.push(hole)
       })
-
-      var roundAdd = realm.objects('Round').filtered('done == "no"')
-      // roundAdd.hole.push({
-      //   id:  this.props.holeNumber,
-      //   fullStroke: this.state.fullStroke,
-      //   halfStroke: this.state.halfStroke,
-      //   puts: this.state.puts,
-      //   firstPutDistance: this.state.firstPutDistance,
-      //   penalties: this.state.penalties,
-      //   fairway: 'On'
-      // })
-
-
-
-    //console.log(realm.objects('Hole'));
-    //console.log(realm.objects('Hole').filtered('number = 10').length);
+    }
     alert('Stats saved!')
     Actions.pop()
   }
