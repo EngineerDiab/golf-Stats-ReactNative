@@ -54,7 +54,7 @@ export default class statsView extends Component {
       let hole = realm.create('Hole', {
         id: this._createdID(),
         date: this._getDate(),
-        round: '1',
+        round: this.props.round,
         holeID:  this.props.holeNumberString,
         fullStroke: this.state.fullStroke,
         halfStroke: this.state.halfStroke,

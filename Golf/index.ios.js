@@ -19,15 +19,35 @@
 }
 
  class Golf extends React.Component {
+
+   _getDate(){
+     var today1 = new Date();
+     var dd = today1.getDate();
+     var mm = today1.getMonth()+1; //January is 0!
+     var yyyy = today1.getFullYear();
+
+     if(dd<10) {
+         dd='0'+dd
+     }
+
+     if(mm<10) {
+         mm='0'+mm
+     }
+
+     today1 = mm+'/'+dd+'/'+yyyy;
+     today = today1.toString();
+     return today
+     }
+
    render() {
     newRound = (props) => {
-        let holesObjects = realm.objects('Hole')
-          if(holesObjects.length < 9){
-            alert(this.props.round)
-          }
-          else{
-            alert('Ok')
-          }
+        let holesObjects = realm.objects('Hole').filtered(`id CONTAINS "${this._getDate()}"`).sorted('round', true).slice('0')[0].round
+        if(holesObjects == null){
+          //set round to 1
+        }
+        else{
+          //increment round by 1
+        }
         }
      return(
        <Router>
