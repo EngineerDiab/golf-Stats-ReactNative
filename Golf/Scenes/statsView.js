@@ -46,7 +46,7 @@ export default class statsView extends Component {
     }
 
     _createdID(){
-      return(this._getDate() + '-' + this.props.round + '-' + this.props.holeNumberString)
+      return(this._getDate() + '-' + realm.objects('Round').slice('0')[0].roundNumber.toString() + '-' + this.props.holeNumberString)
     }
 
   _handlePress(){
@@ -54,7 +54,7 @@ export default class statsView extends Component {
       let hole = realm.create('Hole', {
         id: this._createdID(),
         date: this._getDate(),
-        round: this.props.round,
+        round: realm.objects('Round').slice('0')[0].roundNumber.toString(),
         holeID:  this.props.holeNumberString,
         fullStroke: this.state.fullStroke,
         halfStroke: this.state.halfStroke,

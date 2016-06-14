@@ -42,13 +42,26 @@
    render() {
     newRound = (props) => {
         let holesObjects = realm.objects('Hole').filtered(`id CONTAINS "${this._getDate()}"`).sorted('round', true).slice('0')[0].round
-        if(holesObjects == null){
-          //set round to 1
+        var holesObjectsInt = parseInt(holesObjects, 10)
+
+        console.log(holesObjectsInt)
+        if(holesObjects === null || undefined){
+           realm.write(() => {
+             let round = realm.create('Round', {
+               id: 1,
+               roundNumber: 1,
+             }, true);
+           })
         }
         else{
-          //increment round by 1
+          realm.write(() => {
+            let round = realm.create('Round', {
+              id: 1,
+              roundNumber: holesObjectsInt + 1,
+            }, true);
+          })
         }
-        }
+      }
      return(
        <Router>
        <Scene key="root">

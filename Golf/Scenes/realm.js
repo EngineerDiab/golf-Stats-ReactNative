@@ -19,4 +19,14 @@ Hole.schema = {
     },
 };
 
-export default new Realm({schema: [Hole]});
+class Round extends Realm.Object{}
+Round.schema = {
+  name: 'Round',
+  primaryKey: 'id',
+  properties:{
+    id: 'int',
+    roundNumber: 'int'
+  }
+}
+
+export default new Realm({schema: [Hole, Round]});
