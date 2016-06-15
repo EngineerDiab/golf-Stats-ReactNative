@@ -18,6 +18,8 @@ export default class statsView extends Component {
   constructor () {
   super();
   this.state = {
+      roundValue: '1',
+      holeNumber: 1,
       fullStroke: 0,
       halfStroke: 0,
       puts: 0,
@@ -46,16 +48,35 @@ export default class statsView extends Component {
     }
 
     _createdID(){
-      return(this._getDate() + '-' + realm.objects('Round').slice('0')[0].roundNumber.toString() + '-' + this.props.holeNumberString)
+      return(this._getDate() + '-' + this.state.roundValue + '-' + this.state.holeNumber.toString())
     }
 
   _handlePress(){
+    var _getDatesInHoles = function(object, index, collection){
+      if(object.date === this._getDate()){
+        return false
+      }
+      else{
+        return true
+      }
+    }
+    if(realm.objects('Hole').slice('0').map(_getDatesInHoles, this).indexOf(false) == -1 === false){
+      this.state.roundValue = realm.objects('Round').slice('0')[0].roundNumber.toString()
+    } else{
+      this.state.roundValue = '1'
+      realm.write(() => {
+        let round = realm.create('Round', {
+          id: 1,
+          roundNumber: 1,
+        }, true);
+      })
+    }
     realm.write(() => {
       let hole = realm.create('Hole', {
         id: this._createdID(),
         date: this._getDate(),
-        round: realm.objects('Round').slice('0')[0].roundNumber.toString(),
-        holeID:  this.props.holeNumberString,
+        round: this.state.roundValue,
+        holeID:  this.state.holeNumber,
         fullStroke: this.state.fullStroke,
         halfStroke: this.state.halfStroke,
         puts: this.state.puts,
@@ -66,13 +87,39 @@ export default class statsView extends Component {
     })
 
     alert('Stats saved!')
-    Actions.pop()
+    Actions.pop();
   }
 
 
   render(){
     return(
       <View style={styles.container}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-start",
+          alignItems: "stretch",
+        }}>
+        <Slider
+          minimumValue={0}
+          maximumValue={18}
+          step={1}
+          minimumTrackTintColor='#1fb28a'
+          maximumTrackTintColor='#d3d3d3'
+          thumbTintColor='#1a9274'
+          onValueChange={(holeNumber) => this.setState({holeNumber})}
+        />
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 16,
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica Neue',
+          }}>
+          Hole Number: {this.state.holeNumber}
+        </Text>
+        <View style={styles.seperator}></View>
+      </View>
         <View
           style={{
             flex: 1,
@@ -228,7 +275,7 @@ export default class statsView extends Component {
         styleDisabled={{color: 'red'}}
         onPress={this._handlePress.bind(this)}
         >
-        Save Stats for hole {this.props.holeNumber}
+        Save Stats for hole {this.state.holeNumber}
       </Button>
       </View>
 
