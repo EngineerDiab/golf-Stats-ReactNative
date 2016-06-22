@@ -2,7 +2,8 @@ import { ToggleContainer, ToggleItem } from 'deco-ride-share-demo'
 import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
 var Slider = require('react-native-slider');
-var Button = require('react-native-button');
+//var Button = require('react-native-button');
+import Button from 'apsl-react-native-button';
 import realm from './realm';
 
 
@@ -18,6 +19,7 @@ export default class statsView extends Component {
   constructor () {
   super();
   this.state = {
+      par: 3,
       roundValue: '1',
       holeNumber: 1,
       fullStroke: 0,
@@ -75,6 +77,7 @@ export default class statsView extends Component {
       let hole = realm.create('Hole', {
         id: this._createdID(),
         date: this._getDate(),
+        par: this.state.par,
         round: this.state.roundValue,
         holeID:  this.state.holeNumber,
         fullStroke: this.state.fullStroke,
@@ -101,8 +104,36 @@ export default class statsView extends Component {
           alignItems: "stretch",
         }}>
         <Slider
-          minimumValue={0}
+          minimumValue={3}
+          maximumValue={5}
+          value={3}
+          step={1}
+          minimumTrackTintColor='#1fb28a'
+          maximumTrackTintColor='#d3d3d3'
+          thumbTintColor='#1a9274'
+          onValueChange={(par) => this.setState({par})}
+        />
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 16,
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica Neue',
+          }}>
+          Par: {this.state.par}
+        </Text>
+        <View style={styles.seperator}></View>
+      </View>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-start",
+          alignItems: "stretch",
+        }}>
+        <Slider
+          minimumValue={1}
           maximumValue={18}
+          value={1}
           step={1}
           minimumTrackTintColor='#1fb28a'
           maximumTrackTintColor='#d3d3d3'
@@ -271,8 +302,8 @@ export default class statsView extends Component {
           )}
         />
         <Button
-        style={{fontSize: 20, color: 'green'}}
-        styleDisabled={{color: 'red'}}
+        style={{backgroundColor: '#058CFA', borderColor: 'white'}}
+        textStyle={{color: 'white'}}
         onPress={this._handlePress.bind(this)}
         >
         Save Stats for hole {this.state.holeNumber}
@@ -286,7 +317,8 @@ export default class statsView extends Component {
 var styles = StyleSheet.create({
   container: {
     marginTop:64,
-    margin: 20
+    margin: 20,
+    flex: 1
     //marginBottom:49
   },
   sliderContainer:{

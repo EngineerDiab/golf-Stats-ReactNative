@@ -10,6 +10,7 @@ Hole.schema = {
     date: 'string',
     round: 'string',
     holeID: 'int',
+    par: 'int',
     fullStroke: 'int',
     halfStroke: 'int',
     puts: 'int',

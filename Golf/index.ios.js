@@ -8,7 +8,9 @@
  import {Scene, Router, Actions} from 'react-native-router-flux';
  import holeListView from './Scenes/holeListView';
  import statsView from './Scenes/statsView';
+ import overviewView from './Scenes/overviewView';
  import realm from './Scenes/realm';
+
 
  class TabIcon extends React.Component {
     render(){
@@ -44,6 +46,7 @@
        let hole = realm.create('Hole', {
          id: '0',
          date: '16/03/94',
+         par: 0,
          round: '1',
          holeID:  0,
          fullStroke: 0,
