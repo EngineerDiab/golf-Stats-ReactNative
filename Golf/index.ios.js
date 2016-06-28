@@ -4,8 +4,10 @@
  * @flow
  */
  import React, { Component } from 'react';
- import {AppRegistry, Text} from 'react-native';
+ import {AppRegistry, Text, View} from 'react-native';
  import {Scene, Router, Actions} from 'react-native-router-flux';
+ //import TabIcon from './Scenes/TabIcon';
+ import Icon from 'react-native-vector-icons/Ionicons';
  import holeListView from './Scenes/holeListView';
  import statsView from './Scenes/statsView';
  import overviewView from './Scenes/overviewView';
@@ -15,7 +17,7 @@
  class TabIcon extends React.Component {
     render(){
         return (
-            <Text style={{color: this.props.selected ? 'red' :'black'}}>{this.props.title}</Text>
+            <Icon name={this.props.iconString} size={35} color={this.props.selected ?  'red' : 'black'} />
         );
     }
 }
@@ -87,7 +89,7 @@
        <Router>
        <Scene key="root">
           <Scene key="tabbar" tabs="true">
-            <Scene key="holeListViewKey" component={holeListView} title="Stats" icon={TabIcon} initial={true} onLeft={newRound.bind()} leftTitle="New Rnd" />
+            <Scene key="holeListViewKey" component={holeListView} title="Stats" icon={TabIcon} iconString="ios-stats-outline" initial={true} onLeft={newRound.bind()} leftTitle="New Rnd" />
             <Scene key="overview" component={overviewView} title="Overview" icon={TabIcon}/>
             <Scene key="home" component={holeListView} title="Visualize" icon={TabIcon}/>
           </Scene>

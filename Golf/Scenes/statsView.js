@@ -1,7 +1,7 @@
 import { ToggleContainer, ToggleItem } from 'deco-ride-share-demo'
 import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
-var Slider = require('react-native-slider');
+import Slider from 'react-native-slider';
 //var Button = require('react-native-button');
 import Button from 'apsl-react-native-button';
 import realm from './realm';
