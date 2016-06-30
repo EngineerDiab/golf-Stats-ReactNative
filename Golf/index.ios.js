@@ -6,21 +6,25 @@
  import React, { Component } from 'react';
  import {AppRegistry, Text, View} from 'react-native';
  import {Scene, Router, Actions} from 'react-native-router-flux';
- //import TabIcon from './Scenes/TabIcon';
- import Icon from 'react-native-vector-icons/Ionicons';
+ import TabIcon from './Scenes/TabIcon';
+ //import Icon from 'react-native-vector-icons/Ionicons';
+ import visualize from './Scenes/visualize';
  import holeListView from './Scenes/holeListView';
  import statsView from './Scenes/statsView';
  import overviewView from './Scenes/overviewView';
  import realm from './Scenes/realm';
 
 
- class TabIcon extends React.Component {
-    render(){
-        return (
-            <Icon name={this.props.iconString} size={35} color={this.props.selected ?  'red' : 'black'} />
-        );
-    }
-}
+//  class TabIcon extends React.Component {
+//     render(){
+//         return (
+//             <View>
+//             <Icon name={this.props.iconString} size={35} color={this.props.selected ?  'red' : 'black'} />
+//             <Text>{this.props.title}</Text>
+//             </View>
+//         );
+//     }
+// }
 
  class Golf extends React.Component {
 
@@ -89,11 +93,11 @@
        <Router>
        <Scene key="root">
           <Scene key="tabbar" tabs="true">
-            <Scene key="holeListViewKey" component={holeListView} title="Stats" icon={TabIcon} iconString="ios-stats-outline" initial={true} onLeft={newRound.bind()} leftTitle="New Rnd" />
-            <Scene key="overview" component={overviewView} title="Overview" icon={TabIcon}/>
-            <Scene key="home" component={holeListView} title="Visualize" icon={TabIcon}/>
+            <Scene key="holeListViewKey" component={holeListView} title="Stats" icon={TabIcon} iconName="ios-stats" hideNavBar={true} initial={true} onLeft={newRound.bind()} leftTitle="New Rnd" />
+            <Scene key="overview" component={overviewView} title="Overview" icon={TabIcon} iconName="ios-calendar" hideNavBar={true}/>
+            <Scene key="visualize" component={visualize} title="Visualize" icon={TabIcon} iconName="ios-pie" hideNavBar={true}/>
           </Scene>
-          <Scene key="stats" component={statsView} title="Stats"/>
+          <Scene key="stats" component={statsView} title="Stats" hideNavBar={true}/>
        </Scene>
      </Router>
    );

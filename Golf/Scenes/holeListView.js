@@ -124,6 +124,7 @@ export default class holeListView extends Component {
 
   render(){
     return(
+      <View style={{flex: 1, marginTop:20}}>
       <View style={styles.listView}>
         <View style={styles.rowIndependant}>
           <View>
@@ -156,7 +157,7 @@ export default class holeListView extends Component {
         </View>
         <View>
           <Button
-          style={{backgroundColor: '#058CFA', borderColor: 'white'}}
+          style={{backgroundColor: '#1a9274', borderColor: 'white'}}
           textStyle={{color: 'white'}}
           onPress={() => Actions.stats()}
           >
@@ -187,6 +188,7 @@ export default class holeListView extends Component {
         style={styles.list}
       />
       </ScrollView>
+      </View>
       </View>
 
 
@@ -229,9 +231,9 @@ var styles = StyleSheet.create({
   },
   listView: {
     flexDirection:'column',
-    marginTop:49,
+    //marginTop:49,
     marginBottom:49,
-    padding: 20
+    padding: 20,
   },
   list:{
     padding:0
