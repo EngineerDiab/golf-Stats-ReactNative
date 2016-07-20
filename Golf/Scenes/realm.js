@@ -16,6 +16,7 @@ Hole.schema = {
     puts: 'int',
     firstPutDistance: 'int',
     penalties: 'int',
+    gir: 'bool',
     fairway: 'string'
     },
 };

@@ -4,7 +4,7 @@ import {Actions} from 'react-native-router-flux';
 import { ListView } from 'realm/react-native';
 //var Button = require('react-native-button');
 import Button from 'apsl-react-native-button';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import realm from './realm';
 import {
   Text,
@@ -106,13 +106,13 @@ export default class holeListView extends Component {
               <Text style={{alignSelf:'center', fontSize:15}}>{rowData.holeID}</Text>
             </View>
             <View>
-              <Text style={{fontSize:15}}>{rowData.fullStroke + rowData.halfStroke + rowData.puts}</Text>
-            </View>
-            <View>
               <Text style={{fontSize:15}}>{rowData.par}</Text>
             </View>
             <View>
-              <Text style={{color: (rowData.fullStroke + rowData.halfStroke + rowData.puts) - rowData.par <= -1 ? 'red' :'black', fontSize:15}}>{(rowData.fullStroke + rowData.halfStroke + rowData.puts)- rowData.par}</Text>
+              <Text style={{fontSize:15}}>{rowData.fullStroke + rowData.halfStroke + rowData.puts}</Text>
+            </View>
+            <View>
+              <Text style={{color: (rowData.fullStroke + rowData.halfStroke + rowData.puts) - rowData.par <= -1 ? '#ea5b1c' :'black', fontSize:15}}>{(rowData.fullStroke + rowData.halfStroke + rowData.puts)- rowData.par}</Text>
             </View>
           </View>
           <View style={styles.seperator}></View>
@@ -123,12 +123,34 @@ export default class holeListView extends Component {
   }
 
   render(){
+    newRound = (props) => {
+        let holesObjects = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0].round
+        var holesObjectsInt = parseInt(holesObjects, 10)
+
+        console.log(holesObjectsInt)
+        if(holesObjects === null || undefined){
+           realm.write(() => {
+             let round = realm.create('Round', {
+               id: 1,
+               roundNumber: 1,
+             }, true);
+           })
+        }
+        else{
+          realm.write(() => {
+            let round = realm.create('Round', {
+              id: 1,
+              roundNumber: holesObjectsInt + 1,
+            }, true);
+          })
+        }
+      }
     return(
       <View style={{flex: 1, marginTop:20}}>
       <View style={styles.listView}>
         <View style={styles.rowIndependant}>
           <View>
-            <Icon name="dot-circle-o" size={33} color="#1a9274"></Icon>
+            <Icon name="ios-flag" size={42} color="#1a9274"></Icon>
           </View>
           <View style={{flexDirection: 'column', justifyContent:'space-between'}}>
             <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
@@ -149,20 +171,31 @@ export default class holeListView extends Component {
             </View>
           </View>
           <View>
-            <Text style={{color: (this._getTotalScore()) - this._getTotalPar() <= -1 ? 'red' :'black', fontSize:30}}>{this._getTotalScore() - this._getTotalPar()}</Text>
+            <Text style={{color: (this._getTotalScore()) - this._getTotalPar() <= -1 ? '#ea5b1c' :'black', fontSize:30}}>{this._getTotalScore() - this._getTotalPar()}</Text>
           </View>
           <View>
-            <Icon name="dot-circle-o" size={33} color="#1a9274"></Icon>
+            <Icon name="ios-flag" size={42} color="#1a9274"></Icon>
           </View>
         </View>
-        <View>
-          <Button
-          style={{backgroundColor: '#1a9274', borderColor: 'white'}}
-          textStyle={{color: 'white'}}
-          onPress={() => Actions.stats()}
-          >
-          New Hole
-          </Button>
+        <View style={{flexDirection: 'row', justifyContent:'space-between', backgroundColor: 'transparent'}}>
+          <View style={{flex:1}}>
+            <Button
+            style={{backgroundColor: '#EB990C', borderColor: 'white'}}
+            textStyle={{color: 'white'}}
+            onPress={() => newRound()}
+            >
+            <Icon name="ios-create-outline" size={30} color="white"></Icon>
+            </Button>
+          </View>
+          <View style={{flex: 3}}>
+            <Button
+            style={{backgroundColor: '#1a9274', borderColor: 'white'}}
+            textStyle={{color: 'white'}}
+            onPress={() => Actions.stats()}
+            >
+            New Hole
+            </Button>
+          </View>
         </View>
         <View style={styles.rowIndependantHeader}>
           <View>
@@ -220,6 +253,15 @@ var styles = StyleSheet.create({
     padding: 0,
     height:20,
     //backgroundColor: 'red'
+  },
+  roundContainer: {
+    flex: 1,
+    alignSelf: 'stretch',
+    borderColor: '#1a9274',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    width:50
   },
   seperator:{
     height:1,

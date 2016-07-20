@@ -26,7 +26,8 @@ export default class statsView extends Component {
       halfStroke: 0,
       puts: 0,
       penalties:0,
-      firstPutDistance:0
+      firstPutDistance:0,
+      gir: true
     };
   }
 
@@ -51,6 +52,15 @@ export default class statsView extends Component {
 
     _createdID(){
       return(this._getDate() + '-' + this.state.roundValue + '-' + this.state.holeNumber.toString())
+    }
+
+    _getGIR(){
+      if((this.state.par == 3 && this.state.fullStroke + this.state.halfStroke <= 1) || (this.state.par == 4 && this.state.fullStroke + this.state.halfStroke <= 2) || (this.state.par == 5 && this.state.fullStroke + this.state.halfStroke <= 3)){
+        return true
+      }
+      else{
+        return false
+      }
     }
 
   _handlePress(){
@@ -85,11 +95,13 @@ export default class statsView extends Component {
         puts: this.state.puts,
         firstPutDistance: this.state.firstPutDistance,
         penalties: this.state.penalties,
+        gir: this._getGIR(),
         fairway: 'On'
       }, true);
     })
 
     alert('Stats saved!')
+    console.log(this._getGIR())
     Actions.pop();
   }
 

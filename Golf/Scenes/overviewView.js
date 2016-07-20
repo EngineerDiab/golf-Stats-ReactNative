@@ -72,13 +72,13 @@ export default class overviewView extends Component {
     //console.log(realRowID + 1)
     return(
       <TouchableHighlight
-        //onPress={() => Actions.stats({holeNumber: realRowID, holeNumberString: realRowIDString, round: this.state.round})}
+        onPress={() => Actions.statsForOverview({ date: rowData.date, round: rowData.round})}
         activeOpacity={75 / 100}
         underlayColor={"rgb(210,210,210)"}>
         <View>
           <View style={styles.row}>
             <View style={styles.left}>
-              <Text>Date: {rowData.date}</Text>
+              <Text>{rowData.date}</Text>
             </View>
             <View style={styles.right}>
               <Text>Round: {rowData.round}</Text>

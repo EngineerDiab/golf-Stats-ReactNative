@@ -13,6 +13,7 @@
  import statsView from './Scenes/statsView';
  import overviewView from './Scenes/overviewView';
  import realm from './Scenes/realm';
+ import statsViewOverview from './Scenes/statsViewOverview';
 
 
 //  class TabIcon extends React.Component {
@@ -60,6 +61,7 @@
          puts: 0,
          firstPutDistance: 0,
          penalties: 0,
+         gir: true,
          fairway: 'On'
        }, true);
        let round = realm.create('Round', {
@@ -67,37 +69,16 @@
          roundNumber: 1,
        }, true);
      })
-    newRound = (props) => {
-        let holesObjects = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0].round
-        var holesObjectsInt = parseInt(holesObjects, 10)
-
-        console.log(holesObjectsInt)
-        if(holesObjects === null || undefined){
-           realm.write(() => {
-             let round = realm.create('Round', {
-               id: 1,
-               roundNumber: 1,
-             }, true);
-           })
-        }
-        else{
-          realm.write(() => {
-            let round = realm.create('Round', {
-              id: 1,
-              roundNumber: holesObjectsInt + 1,
-            }, true);
-          })
-        }
-      }
      return(
        <Router>
        <Scene key="root">
           <Scene key="tabbar" tabs="true">
-            <Scene key="holeListViewKey" component={holeListView} title="Stats" icon={TabIcon} iconName="ios-stats" hideNavBar={true} initial={true} onLeft={newRound.bind()} leftTitle="New Rnd" />
-            <Scene key="overview" component={overviewView} title="Overview" icon={TabIcon} iconName="ios-calendar" hideNavBar={true}/>
+            <Scene key="holeListViewKey" component={holeListView} title="Stats" icon={TabIcon} iconName="ios-stats" hideNavBar={true} initial={true} leftTitle="New Rnd" />
+            <Scene key="overview" component={overviewView} title="Overview" icon={TabIcon} iconName="ios-calendar"/>
             <Scene key="visualize" component={visualize} title="Visualize" icon={TabIcon} iconName="ios-pie" hideNavBar={true}/>
           </Scene>
           <Scene key="stats" component={statsView} title="Stats" hideNavBar={true}/>
+          <Scene key="statsForOverview" component={statsViewOverview} title="Stats"/>
        </Scene>
      </Router>
    );
