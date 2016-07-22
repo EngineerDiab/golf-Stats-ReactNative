@@ -58,7 +58,7 @@ export default class statsViewOverview extends Component {
       //labels: ['GIR']
     };
     return (
-      <View style={styles.container1}>
+      <ScrollView style={styles.container1}>
         <View style={styles.containerRow}>
           <View style={{flexDirection:'row', justifyContent: 'space-around'}}>
             <View>
@@ -91,7 +91,24 @@ export default class statsViewOverview extends Component {
             </View>
           </View>
         </View>
-      </View>
+        <View style={styles.seperator}>
+        </View>
+        <View style={styles.containerRow}>
+          <View style={{flexDirection:'row', justifyContent: 'space-around'}}>
+            <View>
+              <Text style={{color: '#ea5b1c', fontSize: 24}}>{Math.round(valueGIR)}%</Text>
+            </View>
+            <View>
+              <Text style={{color: '#1a9274', fontSize: 24}}>{Math.round(100-valueGIR)}%</Text>
+            </View>
+          </View>
+          <View style={{justifyContent: 'space-around'}}>
+            <View style={{alignSelf: 'center'}}>
+              <PieChart config={config} style={styles.chart}/>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
     );
   }
 }

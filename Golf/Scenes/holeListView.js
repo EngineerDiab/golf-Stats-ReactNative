@@ -5,13 +5,15 @@ import { ListView } from 'realm/react-native';
 //var Button = require('react-native-button');
 import Button from 'apsl-react-native-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+import DeviceInfo from 'react-native-device-info';
 import realm from './realm';
 import {
   Text,
   View,
   TouchableHighlight,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  PixelRatio
 } from 'react-native'
 
 
@@ -55,6 +57,17 @@ export default class holeListView extends Component {
       return total
     }
 
+    _getDeviceForHeight(){
+      if(DeviceInfo.getModel()=== "iPhone 6 plus"){
+        return 520
+      }
+      if(DeviceInfo.getModel()=== "iPhone 6"){
+        return 450
+      }
+      else{
+        return 350
+      }
+    }
 
   constructor (props) {
   super(props);
@@ -65,6 +78,7 @@ export default class holeListView extends Component {
     dataSource: ds.cloneWithRows({})
     };
     this.componentDidMount = this.componentDidMount.bind(this);
+    //console.log(DeviceInfo.getModel())
   }
 
   componentDidMount() {
@@ -85,40 +99,31 @@ export default class holeListView extends Component {
     var parsedRowID = parseInt(rowID, 10)
     var realRowID = parsedRowID + 1
     var realRowIDString = realRowID.toString()
-    // var offset = rowData.par - (rowData.fullStroke + rowData.halfStroke + rowData.puts)
-    // var styleValueOffset = "color: 'black'"
-    // if(offset <= -1){
-    //   styleValueOffset = "color: 'red'"
-    // }
-    // else{
-    //   styleValueOffset = "color: 'black'"
-    // }
-    //console.log(styleValueOffset)
     return(
-      <TouchableHighlight
-        onPress={() => Actions.stats({holeNumber: realRowID, holeNumberString: realRowIDString, round: this.state.round})}
-        activeOpacity={75 / 100}
-        underlayColor={"rgb(210,210,210)"}>
-        <View style={{padding:0}}>
-        <View style={{flexDirection:'column'}}>
-          <View style={styles.row}>
-            <View>
-              <Text style={{alignSelf:'center', fontSize:15}}>{rowData.holeID}</Text>
+        <TouchableHighlight
+          onPress={() => Actions.stats({holeNumber: realRowID, holeNumberString: realRowIDString, round: this.state.round})}
+          activeOpacity={75 / 100}
+          underlayColor={"rgb(210,210,210)"}>
+          <View style={{padding:0}}>
+          <View style={{flexDirection:'column'}}>
+            <View style={styles.row}>
+              <View style={{flex:1}}>
+                <Text style={{alignSelf:'center', fontSize:15}}>{rowData.holeID}</Text>
+              </View>
+              <View style={{flex:1}}>
+                <Text style={{fontSize:15, alignSelf:'center'}}>{rowData.par}</Text>
+              </View>
+              <View style={{flex:1}}>
+                <Text style={{fontSize:15, alignSelf:'center'}}>{rowData.fullStroke + rowData.halfStroke + rowData.puts}</Text>
+              </View>
+              <View style={{flex:1}}>
+                <Text style={{color: (rowData.fullStroke + rowData.halfStroke + rowData.puts) - rowData.par <= -1 ? '#ea5b1c' :'black', fontSize:15, alignSelf:'center'}}>{(rowData.fullStroke + rowData.halfStroke + rowData.puts)- rowData.par}</Text>
+              </View>
             </View>
-            <View>
-              <Text style={{fontSize:15}}>{rowData.par}</Text>
-            </View>
-            <View>
-              <Text style={{fontSize:15}}>{rowData.fullStroke + rowData.halfStroke + rowData.puts}</Text>
-            </View>
-            <View>
-              <Text style={{color: (rowData.fullStroke + rowData.halfStroke + rowData.puts) - rowData.par <= -1 ? '#ea5b1c' :'black', fontSize:15}}>{(rowData.fullStroke + rowData.halfStroke + rowData.puts)- rowData.par}</Text>
-            </View>
+            <View style={styles.seperator}></View>
           </View>
-          <View style={styles.seperator}></View>
-        </View>
-        </View>
-      </TouchableHighlight>
+          </View>
+        </TouchableHighlight>
     )
   }
 
@@ -180,7 +185,7 @@ export default class holeListView extends Component {
         <View style={{flexDirection: 'row', justifyContent:'space-between', backgroundColor: 'transparent'}}>
           <View style={{flex:1}}>
             <Button
-            style={{backgroundColor: '#EB990C', borderColor: 'white'}}
+            style={{backgroundColor: '#ea5b1c', borderColor: 'white'}}
             textStyle={{color: 'white'}}
             onPress={() => newRound()}
             >
@@ -198,29 +203,27 @@ export default class holeListView extends Component {
           </View>
         </View>
         <View style={styles.rowIndependantHeader}>
-          <View>
-            <Text style={{fontSize: 15}}>HOLE</Text>
+          <View style={{flex:1}}>
+            <Text style={{fontSize: 15, alignSelf:'center'}}>HOLE</Text>
           </View>
           <View style={styles.seperatorColumn}></View>
-          <View>
-            <Text style={{fontSize: 15}}>PAR</Text>
+          <View style={{flex:1}}>
+            <Text style={{fontSize: 15, alignSelf:'center'}}>PAR</Text>
           </View>
           <View style={styles.seperatorColumn}></View>
-          <View>
-            <Text style={{fontSize: 15}}>SCORE</Text>
+          <View style={{flex:1}}>
+            <Text style={{fontSize: 15, alignSelf:'center'}}>SCORE</Text>
           </View>
           <View style={styles.seperatorColumn}></View>
-          <View>
-            <Text style={{fontSize: 15}}>+/-</Text>
+          <View style={{flex:1}}>
+            <Text style={{fontSize: 15, alignSelf:'center'}}>+/-</Text>
           </View>
         </View>
-        <ScrollView style={{marginBottom:49}}>
         <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
-        style={styles.list}
+        style={{height: this._getDeviceForHeight()}}
       />
-      </ScrollView>
       </View>
       </View>
 
@@ -236,7 +239,8 @@ var styles = StyleSheet.create({
     padding: 0,
     height:20,
     flexWrap: 'wrap',
-    margin:10
+    margin:10,
+    alignItems:'center'
   },
   rowIndependant:{
     flexDirection:'row',
@@ -244,7 +248,7 @@ var styles = StyleSheet.create({
     //backgroundColor: 'pink',
     alignItems: 'center',
     padding: 0,
-    height:44,
+    height:44
     //backgroundColor: 'red'
   },
   rowIndependantHeader:{
@@ -278,7 +282,9 @@ var styles = StyleSheet.create({
     padding: 20,
   },
   list:{
-    padding:0
+    //flex:1,
+    //marginBottom:100,
+    //alignSelf:'stretch'
   },
   textStyle:{
     fontSize: 15,

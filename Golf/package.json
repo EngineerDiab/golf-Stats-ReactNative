@@ -13,6 +13,7 @@
     "react-native": "^0.28.0",
     "react-native-button": "^1.6.0",
     "react-native-chart": "^1.0.1-beta",
+    "react-native-device-info": "^0.9.3",
     "react-native-ios-charts": "^0.2.5",
     "react-native-router-flux": "^3.26.2",
     "react-native-slider": "^0.7.0",
