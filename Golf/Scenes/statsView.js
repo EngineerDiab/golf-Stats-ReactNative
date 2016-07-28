@@ -27,6 +27,7 @@ export default class statsView extends Component {
       puts: 0,
       penalties:0,
       firstPutDistance:0,
+      fairway:'On',
       gir: true
     };
   }
@@ -95,8 +96,8 @@ export default class statsView extends Component {
         puts: this.state.puts,
         firstPutDistance: this.state.firstPutDistance,
         penalties: this.state.penalties,
-        gir: this._getGIR(),
-        fairway: 'On'
+        fairway: this.state.fairway,
+        gir: this._getGIR()
       }, true);
     })
 
@@ -294,7 +295,7 @@ export default class statsView extends Component {
           <View style={styles.seperator}></View>
         </View>
         <ToggleContainer
-          value={(this.state && this.state.option) || 'On'}
+          value={(this.state && this.state.fairway) || 'On'}
           options={['Left', 'On', 'Right']}
           style={{padding: 50}}
           orientation={"horizontal"}
@@ -303,7 +304,7 @@ export default class statsView extends Component {
             <ToggleItem
               option={option}
               active={active}
-              onPress={() => this.setState({option})}
+              onPress={(fairway) => this.setState({fairway})}
               color={"rgb(74,144,226)"}
               backgroundColor={"rgb(255,255,255)"}
               borderColor={"rgba(231,231,231,1)"}
