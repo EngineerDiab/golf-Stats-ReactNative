@@ -75,9 +75,9 @@
           <Scene key="tabbar" tabs="true">
             <Scene key="holeListViewKey" component={holeListView} title="Stats" icon={TabIcon} iconName="ios-stats" hideNavBar={true} initial={true} leftTitle="New Rnd" />
             <Scene key="overview" component={overviewView} title="Overview" icon={TabIcon} iconName="ios-calendar"/>
-            <Scene key="visualize" component={visualize} title="Visualize" icon={TabIcon} iconName="ios-pie" hideNavBar={true}/>
+            <Scene key="visualize" component={visualize} title="Visualize" icon={TabIcon} iconName="ios-pie" hideNavBar={false}/>
           </Scene>
-          <Scene key="stats" component={statsView} title="Stats" hideNavBar={true}/>
+          <Scene key="stats" component={statsView} title="Stats" hideNavBar={false}/>
           <Scene key="statsForOverview" component={statsViewOverview} title="Stats"/>
        </Scene>
      </Router>

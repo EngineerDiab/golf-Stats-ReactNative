@@ -2,6 +2,7 @@ import { ToggleContainer, ToggleItem } from 'deco-ride-share-demo'
 import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
 import Slider from 'react-native-slider';
+import SimpleStepper from 'react-native-simple-stepper';
 //var Button = require('react-native-button');
 import Button from 'apsl-react-native-button';
 import realm from './realm';
@@ -13,6 +14,7 @@ import {
   ListView,
   TouchableHighlight,
   StyleSheet,
+  ScrollView
 } from 'react-native'
 
 export default class statsView extends Component {
@@ -109,14 +111,70 @@ export default class statsView extends Component {
 
   render(){
     return(
-      <View style={styles.container}>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-start",
-          alignItems: "stretch",
-        }}>
-        <Slider
+      <ScrollView style={styles.container}>
+      <View>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 16,
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica Neue',
+            alignSelf:'center'
+          }}>
+          Hole Number: {this.state.holeNumber}
+          </Text>
+          <Slider
+            minimumValue={1}
+            maximumValue={18}
+            value={1}
+            step={1}
+            minimumTrackTintColor='#1fb28a'
+            maximumTrackTintColor='#d3d3d3'
+            thumbTintColor='#1a9274'
+            onValueChange={(holeNumber) => this.setState({holeNumber})}
+          />
+      </View>
+      <View style={styles.seperator}></View>
+      <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+        <View style={{flexDirection:'column'}}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 16,
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica Neue',
+              alignSelf: 'center'
+            }}>
+            Par: {this.state.par}
+          </Text>
+          <SimpleStepper
+            initialValue={3}
+            minimumValue={3}
+            maximumValue={5}
+            stepValue={1}
+            valueChanged={(par => this.setState({par}))}>
+          </SimpleStepper>
+        </View>
+        <View style={{flexDirection:'column'}}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 16,
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica Neue',
+              alignSelf: 'center'
+            }}>
+            Par: {this.state.par}
+          </Text>
+          <SimpleStepper
+            initialValue={3}
+            minimumValue={3}
+            maximumValue={5}
+            stepValue={1}
+            valueChanged={(par => this.setState({par}))}>
+          </SimpleStepper>
+        </View>
+        {/*<Slider
           minimumValue={3}
           maximumValue={5}
           value={3}
@@ -125,179 +183,124 @@ export default class statsView extends Component {
           maximumTrackTintColor='#d3d3d3'
           thumbTintColor='#1a9274'
           onValueChange={(par) => this.setState({par})}
-        />
+        />*/}
+      </View>
+      <View style={styles.seperator}></View>
+      <View>
         <Text
           style={{
             color: 'black',
             fontSize: 16,
             fontWeight: 'normal',
             fontFamily: 'Helvetica Neue',
+            alignSelf:'center'
           }}>
-          Par: {this.state.par}
+          Full Strokes: {this.state.fullStroke}
         </Text>
-        <View style={styles.seperator}></View>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-start",
-          alignItems: "stretch",
-        }}>
         <Slider
-          minimumValue={1}
-          maximumValue={18}
-          value={1}
+          minimumValue={0}
+          maximumValue={3}
           step={1}
           minimumTrackTintColor='#1fb28a'
           maximumTrackTintColor='#d3d3d3'
           thumbTintColor='#1a9274'
-          onValueChange={(holeNumber) => this.setState({holeNumber})}
+          onValueChange={(fullStroke) => this.setState({fullStroke})}
         />
+      </View>
+      <View style={styles.seperator}></View>
+      <View>
         <Text
           style={{
             color: 'black',
             fontSize: 16,
             fontWeight: 'normal',
             fontFamily: 'Helvetica Neue',
+            alignSelf:'center'
           }}>
-          Hole Number: {this.state.holeNumber}
+          Half Strokes: {this.state.halfStroke}
         </Text>
-        <View style={styles.seperator}></View>
+        <Slider
+          minimumValue={0}
+          maximumValue={3}
+          step={1}
+          minimumTrackTintColor='#1fb28a'
+          maximumTrackTintColor='#d3d3d3'
+          thumbTintColor='#1a9274'
+          onValueChange={(halfStroke) => this.setState({halfStroke})}
+        />
       </View>
-        <View
+      <View style={styles.seperator}></View>
+      <View>
+        <Text
           style={{
-            flex: 1,
-            justifyContent: "flex-start",
-            alignItems: "stretch",
+            color: 'black',
+            fontSize: 16,
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica Neue',
+            alignSelf:'center'
           }}>
-          <Slider
-            minimumValue={0}
-            maximumValue={3}
-            step={1}
-            minimumTrackTintColor='#1fb28a'
-            maximumTrackTintColor='#d3d3d3'
-            thumbTintColor='#1a9274'
-            onValueChange={(fullStroke) => this.setState({fullStroke})}
-          />
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 16,
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica Neue',
-            }}>
-            Full Strokes: {this.state.fullStroke}
-          </Text>
-          <View style={styles.seperator}></View>
-        </View>
-        <View
+          Puts: {this.state.puts}
+        </Text>
+        <Slider
+          minimumValue={0}
+          maximumValue={30}
+          step={1}
+          minimumTrackTintColor='#1fb28a'
+          maximumTrackTintColor='#d3d3d3'
+          thumbTintColor='#1a9274'
+          onValueChange={(puts) => this.setState({puts})}
+        />
+      </View>
+      <View style={styles.seperator}></View>
+      <View>
+        <Text
           style={{
-            flex: 1,
-            justifyContent: "flex-start",
-            alignItems: "stretch",
+            color: 'black',
+            fontSize: 16,
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica Neue',
+            alignSelf:'center'
           }}>
-          <Slider
-            minimumValue={0}
-            maximumValue={3}
-            step={1}
-            minimumTrackTintColor='#1fb28a'
-            maximumTrackTintColor='#d3d3d3'
-            thumbTintColor='#1a9274'
-            onValueChange={(halfStroke) => this.setState({halfStroke})}
-          />
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 16,
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica Neue',
-            }}>
-            Half Strokes: {this.state.halfStroke}
-          </Text>
-        <View style={styles.seperator}></View>
-        </View>
-        <View
+          First Putt Distance: {this.state.firstPutDistance}
+        </Text>
+        <Slider
+          minimumValue={0}
+          maximumValue={50}
+          step={1}
+          minimumTrackTintColor='#1fb28a'
+          maximumTrackTintColor='#d3d3d3'
+          thumbTintColor='#1a9274'
+          onValueChange={(firstPutDistance) => this.setState({firstPutDistance})}
+        />
+      </View>
+      <View style={styles.seperator}></View>
+      <View>
+        <Text
           style={{
-            flex: 1,
-            justifyContent: "flex-start",
-            alignItems: "stretch",
+            color: 'black',
+            fontSize: 16,
+            fontWeight: 'normal',
+            fontFamily: 'Helvetica Neue',
+            alignSelf:'center'
           }}>
-          <Slider
-            minimumValue={0}
-            maximumValue={3}
-            step={1}
-            minimumTrackTintColor='#1fb28a'
-            maximumTrackTintColor='#d3d3d3'
-            thumbTintColor='#1a9274'
-            onValueChange={(puts) => this.setState({puts})}
-          />
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 16,
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica Neue',
-            }}>
-            Puts: {this.state.puts}
-          </Text>
-        </View>
-        <View style={styles.seperator}></View>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "flex-start",
-            alignItems: "stretch",
-          }}>
-          <Slider
-            minimumValue={0}
-            maximumValue={50}
-            step={1}
-            minimumTrackTintColor='#1fb28a'
-            maximumTrackTintColor='#d3d3d3'
-            thumbTintColor='#1a9274'
-            onValueChange={(firstPutDistance) => this.setState({firstPutDistance})}
-          />
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 16,
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica Neue',
-            }}>
-            First Put Distance: {this.state.firstPutDistance}
-          </Text>
-          <View style={styles.seperator}></View>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "flex-start",
-            alignItems: "stretch",
-          }}>
-          <Slider
-            minimumValue={0}
-            maximumValue={3}
-            step={1}
-            minimumTrackTintColor='#1fb28a'
-            maximumTrackTintColor='#d3d3d3'
-            thumbTintColor='#1a9274'
-            onValueChange={(penalties) => this.setState({penalties})}
-          />
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 16,
-              fontWeight: 'normal',
-              fontFamily: 'Helvetica Neue',
-            }}>
-            Penalties: {this.state.penalties}
-          </Text>
-          <View style={styles.seperator}></View>
-        </View>
+          Penalties: {this.state.penalties}
+        </Text>
+        <Slider
+          minimumValue={0}
+          maximumValue={3}
+          step={1}
+          minimumTrackTintColor='#1fb28a'
+          maximumTrackTintColor='#d3d3d3'
+          thumbTintColor='#1a9274'
+          onValueChange={(penalties) => this.setState({penalties})}
+        />
+      </View>
+      <View style={styles.seperator}></View>
+      <View>
         <ToggleContainer
           value={(this.state && this.state.fairway) || 'On'}
           options={['Left', 'On', 'Right']}
-          style={{padding: 50}}
+          style={{padding: 1}}
           orientation={"horizontal"}
           spacing={10}
           renderItem={(option, active) => (
@@ -314,14 +317,17 @@ export default class statsView extends Component {
             />
           )}
         />
-        <Button
-        style={{backgroundColor: '#058CFA', borderColor: 'white'}}
-        textStyle={{color: 'white'}}
-        onPress={this._handlePress.bind(this)}
-        >
-        Save Stats for hole {this.state.holeNumber}
-      </Button>
+        </View>
+        <View>
+          <Button
+          style={{backgroundColor: '#058CFA', borderColor: 'white'}}
+          textStyle={{color: 'white'}}
+          onPress={this._handlePress.bind(this)}
+          >
+          Save Stats for hole {this.state.holeNumber}
+          </Button>
       </View>
+      </ScrollView>
 
   )
   }
@@ -329,7 +335,7 @@ export default class statsView extends Component {
 
 var styles = StyleSheet.create({
   container: {
-    marginTop:64,
+    marginTop:70,
     margin: 20,
     flex: 1
     //marginBottom:49

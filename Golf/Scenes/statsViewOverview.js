@@ -106,7 +106,7 @@ export default class statsViewOverview extends Component {
         total = total + getArray[i].firstPutDistance
       }
       console.log(total/getArray.length)
-      return (total/getArray.length)
+      return (Math.round((total/getArray.length)*100)/100)
     }
 
     _calculatePutsPerRound(){
@@ -307,7 +307,7 @@ export default class statsViewOverview extends Component {
           </View>
           <View style={styles.seperator}></View>
           <View style={{margin:20, alignItems:'center'}}>
-            <Text>Fairway Tendancy</Text>
+            <Text>Fairway Tendency</Text>
           </View>
           <View style={{justifyContent: 'space-around'}}>
             <View style={{alignSelf: 'center'}}>
@@ -341,7 +341,7 @@ export default class statsViewOverview extends Component {
             <View style={{flexDirection:'row', justifyContent:'space-around'}}>
               <View style={{alignItems:'center', flexDirection:'column'}}>
                 <View style={{margin:20}}>
-                  <Text>Total Puts</Text>
+                  <Text>Total Putts</Text>
                 </View>
                 <View>
                   <Text>{totalPutsPerRound}</Text>
@@ -358,7 +358,7 @@ export default class statsViewOverview extends Component {
             </View>
             <View style={styles.seperator}></View>
             <View style={{alignSelf:'center', margin:20}}>
-              <Text>Number of 0,1,2,3,4+ puts</Text>
+              <Text>Number of 0,1,2,3,4+ putts</Text>
             </View>
             <View style={{flexDirection:'row', justifyContent:'space-around'}}>
               <View style={{alignItems:'center', flexDirection:'column'}}>
