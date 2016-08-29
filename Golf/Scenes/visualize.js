@@ -74,8 +74,8 @@ export default class statsViewOverview extends Component {
     return(realm.objects('Hole').filtered(`date == "${this.props.date}" AND round == "${this.props.round}" AND gir==${true}`).slice('0').length)
   }
 
-  _calculateGIRPercentage(){
-    var GIRArray = realm.objects('Hole').filtered(`date == "${this.props.date}" AND round == "${this.props.round}"`).slice('0')
+  _calculateGIRPercentage(date, round){
+    var GIRArray = realm.objects('Hole').filtered(`date == "${date}" AND round == "${round}"`).slice('0')
     var trueCounter = 0
     var falseCounter =0
     for(var i=0; i < GIRArray.length; i++){
@@ -87,7 +87,7 @@ export default class statsViewOverview extends Component {
       }
     }
     //console.log(GirArray.length)
-    return ((trueCounter/GIRArray.length)*100)
+    return (Math.round((trueCounter/GIRArray.length)*100))
   }
 
   _calculateScoringMarkers(){
@@ -179,9 +179,9 @@ export default class statsViewOverview extends Component {
       return(realm.objects('Hole').filtered(`date == "${this.props.date}" AND round == "${this.props.round}" AND fairway == "${location}"`).slice('0').length)
     }
 
-    _getDatesFromRoundArray(){
+    _getDatesFromRoundArray(timeFrame){
       var temp = []
-      for(var i = 0; i < this.state.roundArray.length; i++){
+      for(var i = 0; i < timeFrame; i++){
         temp[i] = this.state.roundArray[i].date
       }
       return temp
@@ -273,6 +273,14 @@ export default class statsViewOverview extends Component {
       return avgArray
     }
 
+    _calculateGIRArray(timeFrameValue){
+      var avgArray = []
+      for(var i = 0; i < timeFrameValue; i++){
+        avgArray[i] = this._calculateGIRPercentage(this.state.roundArray[i].date, this.state.roundArray[i].round)
+      }
+      return avgArray
+    }
+
     _calculateUpDownArray(timeFrameValue){
       var avgArray = []
       for(var i = 0; i < timeFrameValue; i++){
@@ -311,6 +319,7 @@ export default class statsViewOverview extends Component {
     var arrayParAverageArray4 = this._calculateParAverageArray(this._getTimeFrame(), 4)
     var arrayParAverageArray5 = this._calculateParAverageArray(this._getTimeFrame(), 5)
     var upDownArray = this._calculateUpDownArray(this._getTimeFrame())
+    var calculateGIRGIR = this._calculateGIRArray(this._getTimeFrame())
     // var totalHoles = this._getTotalHoles()
     // //Scoring Average
     // var valueSCM = this._calculateScoringMarkers()
@@ -345,8 +354,6 @@ export default class statsViewOverview extends Component {
         //label: 'Puts puts puts puts puts puts puts puts puts puts',
         drawCubic: true,
         drawCircles: false,
-        drawHorizontalHighlightIndicator:true,
-        drawVerticalHighlightIndicator:true,
         circleRadius:6,
         drawFilled:true,
         fillAlpha: 0.5,
@@ -356,7 +363,7 @@ export default class statsViewOverview extends Component {
       autoScaleMinMax: true,
       userInteractionEnabled: false,
       backgroundColor: 'transparent',
-      labels: this._getDatesFromRoundArray(),
+      labels: this._getDatesFromRoundArray(this._getTimeFrame()),
       minOffset: 20,
       scaleYEnabled: true,
       scaleXEnabled: true,
@@ -378,15 +385,77 @@ export default class statsViewOverview extends Component {
         enabled:true,
         drawAxisLine: false,
         drawLabels:true,
-        customAxisMax: this._getHighest(arrayPuttingAvg) + 1,
+        customAxisMax: (this._getHighest(arrayPuttingAvg) + 1),
         customAxisMin: this._getLowest(arrayPuttingAvg) - 1,
-        labelCount: this._getLowestHighest(arrayPuttingAvg),
+        labelCount: Math.floor(this._getHighest(arrayPuttingAvg)/10) + 1,
         startAtZero: false,
         drawGridLines:true,
         position: 'outside',
         //startAtZero: true,
         axisMinimum: 0,
-        //axisMaximum: 50
+        axisMaximum: (this._getHighest(arrayPuttingAvg) + 1)
+      },
+      rightAxis: {
+        enabled: false,
+        drawGridLines: false
+      },
+      valueFormatter: {
+        minimumSignificantDigits: 1,
+        type: 'regular',
+        numberStyle: 'NoStyle',
+        maximumDecimalPlaces: 1
+      }
+    };
+
+    const configGIR = {
+      dataSets: [{
+        values: calculateGIRGIR,
+        drawValues: false,
+        valueTextFontSize:16,
+        colors: ['red'],
+        //label: 'Puts puts puts puts puts puts puts puts puts puts',
+        drawCubic: true,
+        drawCircles: false,
+        circleRadius:6,
+        drawFilled:true,
+        fillAlpha: 0.5,
+        fillColor: '#1a9274',
+        lineWidth: 0,
+      }],
+      autoScaleMinMax: true,
+      userInteractionEnabled: false,
+      backgroundColor: 'transparent',
+      labels: this._getDatesFromRoundArray(this._getTimeFrame()),
+      minOffset: 20,
+      scaleYEnabled: true,
+      scaleXEnabled: true,
+      showLegend:false,
+      drawMarkers:true,
+      // animation:({
+      //   xAxisDuration: 1,
+      //   yAxisDuration: 1,
+      //   easingOption: 'linear'
+      // }),
+      xAxis: {
+        axisLineWidth: 1,
+        drawLabels: false,
+        position: 'bottom',
+        drawGridLines: false,
+        labelCount: this._getTimeFrame()
+      },
+      leftAxis: {
+        enabled:true,
+        drawAxisLine: false,
+        drawLabels:true,
+        customAxisMax: 100,
+        customAxisMin: 0,
+        labelCount: 3,
+        startAtZero: false,
+        drawGridLines:true,
+        position: 'outside',
+        //startAtZero: true,
+        axisMinimum: 0,
+        axisMaximum: 100
       },
       rightAxis: {
         enabled: false,
@@ -403,18 +472,24 @@ export default class statsViewOverview extends Component {
     const configPutReal = {
       dataSets: [{
         values: arrayPuttingAvgReal,
-        drawValues: this._getTimeFrameForCircles(),
+        drawValues: false,
         valueTextFontSize:12,
         colors: ['red'],
         //label: 'Puts puts puts puts puts puts puts puts puts puts',
         drawCubic: true,
-        drawCircles: this._getTimeFrameForCircles(),
-        lineWidth: 2,
+        drawCircles: false,
+        drawHorizontalHighlightIndicator:true,
+        drawVerticalHighlightIndicator:true,
+        circleRadius:6,
+        drawFilled:true,
+        fillAlpha: 0.5,
+        fillColor: '#1a9274',
+        lineWidth: 0,
       }],
       autoScaleMinMax: true,
       userInteractionEnabled: false,
       backgroundColor: 'transparent',
-      labels: this._getDatesFromRoundArray(),
+      labels: this._getDatesFromRoundArray(this._getTimeFrame()),
       minOffset: 20,
       scaleYEnabled: true,
       scaleXEnabled: true,
@@ -435,16 +510,16 @@ export default class statsViewOverview extends Component {
       leftAxis: {
         enabled:true,
         drawAxisLine: false,
-        drawLabels:false,
-        customAxisMax: this._getHighest(arrayPuttingAvgReal) + 1,
+        drawLabels:true,
+        customAxisMax: (this._getHighest(arrayPuttingAvgReal) + 1),
         customAxisMin: this._getLowest(arrayPuttingAvgReal) - 1,
-        labelCount: this._getLowestHighest(arrayPuttingAvgReal),
+        labelCount: Math.floor(this._getHighest(arrayPuttingAvgReal)/10) + 1,
         startAtZero: false,
         drawGridLines:true,
         position: 'outside',
         //startAtZero: true,
         axisMinimum: 0,
-        //axisMaximum: 50
+        axisMaximum: (this._getHighest(arrayPuttingAvgReal) + 1)
       },
       rightAxis: {
         enabled: false,
@@ -461,18 +536,24 @@ export default class statsViewOverview extends Component {
     const configPar3 = {
       dataSets: [{
         values: arrayParAverageArray3,
-        drawValues: this._getTimeFrameForCircles(),
+        drawValues: false,
         valueTextFontSize:12,
         colors: ['red'],
         //label: 'Puts puts puts puts puts puts puts puts puts puts',
         drawCubic: true,
-        drawCircles: this._getTimeFrameForCircles(),
-        lineWidth: 2,
+        drawCircles: false,
+        drawHorizontalHighlightIndicator:true,
+        drawVerticalHighlightIndicator:true,
+        circleRadius:6,
+        drawFilled:true,
+        fillAlpha: 0.5,
+        fillColor: '#1a9274',
+        lineWidth: 0,
       }],
       autoScaleMinMax: true,
       userInteractionEnabled: false,
       backgroundColor: 'transparent',
-      labels: this._getDatesFromRoundArray(),
+      labels: this._getDatesFromRoundArray(this._getTimeFrame()),
       minOffset: 20,
       scaleYEnabled: true,
       scaleXEnabled: true,
@@ -493,16 +574,16 @@ export default class statsViewOverview extends Component {
       leftAxis: {
         enabled:true,
         drawAxisLine: false,
-        drawLabels:false,
-        customAxisMax: this._getHighest(arrayParAverageArray3) + 1,
+        drawLabels:true,
+        customAxisMax: (this._getHighest(arrayParAverageArray3) + 1),
         customAxisMin: this._getLowest(arrayParAverageArray3) - 1,
-        labelCount: this._getLowestHighest(arrayParAverageArray3),
+        labelCount: Math.floor(this._getHighest(arrayParAverageArray3)/10) + 1,
         startAtZero: false,
         drawGridLines:true,
         position: 'outside',
         //startAtZero: true,
         axisMinimum: 0,
-        //axisMaximum: 50
+        axisMaximum: (this._getHighest(arrayParAverageArray3) + 1)
       },
       rightAxis: {
         enabled: false,
@@ -519,18 +600,24 @@ export default class statsViewOverview extends Component {
     const configPar4 = {
       dataSets: [{
         values: arrayParAverageArray4,
-        drawValues: this._getTimeFrameForCircles(),
+        drawValues: false,
         valueTextFontSize:12,
         colors: ['red'],
         //label: 'Puts puts puts puts puts puts puts puts puts puts',
         drawCubic: true,
-        drawCircles: this._getTimeFrameForCircles(),
-        lineWidth: 2,
+        drawCircles: false,
+        drawHorizontalHighlightIndicator:true,
+        drawVerticalHighlightIndicator:true,
+        circleRadius:6,
+        drawFilled:true,
+        fillAlpha: 0.5,
+        fillColor: '#1a9274',
+        lineWidth: 0,
       }],
       autoScaleMinMax: true,
       userInteractionEnabled: false,
       backgroundColor: 'transparent',
-      labels: this._getDatesFromRoundArray(),
+      labels: this._getDatesFromRoundArray(this._getTimeFrame()),
       minOffset: 20,
       scaleYEnabled: true,
       scaleXEnabled: true,
@@ -551,16 +638,16 @@ export default class statsViewOverview extends Component {
       leftAxis: {
         enabled:true,
         drawAxisLine: false,
-        drawLabels:false,
-        customAxisMax: this._getHighest(arrayParAverageArray4) + 1,
+        drawLabels:true,
+        customAxisMax: (this._getHighest(arrayParAverageArray4) + 1),
         customAxisMin: this._getLowest(arrayParAverageArray4) - 1,
-        labelCount: this._getLowestHighest(arrayParAverageArray4),
+        labelCount: Math.floor(this._getHighest(arrayParAverageArray4)/10) + 1,
         startAtZero: false,
         drawGridLines:true,
         position: 'outside',
         //startAtZero: true,
         axisMinimum: 0,
-        //axisMaximum: 50
+        axisMaximum: (this._getHighest(arrayParAverageArray4) + 1)
       },
       rightAxis: {
         enabled: false,
@@ -577,18 +664,24 @@ export default class statsViewOverview extends Component {
     const configPar5 = {
       dataSets: [{
         values: arrayParAverageArray5,
-        drawValues: this._getTimeFrameForCircles(),
+        drawValues: false,
         valueTextFontSize:12,
         colors: ['red'],
         //label: 'Puts puts puts puts puts puts puts puts puts puts',
         drawCubic: true,
-        drawCircles: this._getTimeFrameForCircles(),
-        lineWidth: 2,
+        drawCircles: false,
+        drawHorizontalHighlightIndicator:true,
+        drawVerticalHighlightIndicator:true,
+        circleRadius:6,
+        drawFilled:true,
+        fillAlpha: 0.5,
+        fillColor: '#1a9274',
+        lineWidth: 0,
       }],
       autoScaleMinMax: true,
       userInteractionEnabled: false,
       backgroundColor: 'transparent',
-      labels: this._getDatesFromRoundArray(),
+      labels: this._getDatesFromRoundArray(this._getTimeFrame()),
       minOffset: 20,
       scaleYEnabled: true,
       scaleXEnabled: true,
@@ -609,16 +702,16 @@ export default class statsViewOverview extends Component {
       leftAxis: {
         enabled:true,
         drawAxisLine: false,
-        drawLabels:false,
-        customAxisMax: this._getHighest(arrayParAverageArray5) + 1,
+        drawLabels:true,
+        customAxisMax: (this._getHighest(arrayParAverageArray5) + 1),
         customAxisMin: this._getLowest(arrayParAverageArray5) - 1,
-        labelCount: this._getLowestHighest(arrayParAverageArray5),
+        labelCount: Math.floor(this._getHighest(arrayParAverageArray5)/10) + 1,
         startAtZero: false,
         drawGridLines:true,
         position: 'outside',
         //startAtZero: true,
         axisMinimum: 0,
-        //axisMaximum: 50
+        axisMaximum: (this._getHighest(arrayParAverageArray5) + 1)
       },
       rightAxis: {
         enabled: false,
@@ -635,18 +728,24 @@ export default class statsViewOverview extends Component {
     const configUpDown = {
       dataSets: [{
         values: upDownArray,
-        drawValues: this._getTimeFrameForCircles(),
+        drawValues: false,
         valueTextFontSize:12,
         colors: ['red'],
         //label: 'Puts puts puts puts puts puts puts puts puts puts',
         drawCubic: true,
-        drawCircles: this._getTimeFrameForCircles(),
-        lineWidth: 2,
+        drawCircles: false,
+        drawHorizontalHighlightIndicator:true,
+        drawVerticalHighlightIndicator:true,
+        circleRadius:6,
+        drawFilled:true,
+        fillAlpha: 0.5,
+        fillColor: '#1a9274',
+        lineWidth: 0,
       }],
       autoScaleMinMax: true,
       userInteractionEnabled: false,
       backgroundColor: 'transparent',
-      labels: this._getDatesFromRoundArray(),
+      labels: this._getDatesFromRoundArray(this._getTimeFrame()),
       minOffset: 20,
       scaleYEnabled: true,
       scaleXEnabled: true,
@@ -667,16 +766,16 @@ export default class statsViewOverview extends Component {
       leftAxis: {
         enabled:true,
         drawAxisLine: false,
-        drawLabels:false,
-        customAxisMax: this._getHighest(upDownArray) + 1,
+        drawLabels:true,
+        customAxisMax: (this._getHighest(upDownArray) + 1),
         customAxisMin: this._getLowest(upDownArray) - 1,
-        labelCount: this._getLowestHighest(upDownArray),
+        labelCount: Math.floor(this._getHighest(upDownArray)/10) + 1,
         startAtZero: false,
         drawGridLines:true,
         position: 'outside',
         //startAtZero: true,
         axisMinimum: 0,
-        //axisMaximum: 50
+        axisMaximum: (this._getHighest(upDownArray) + 1)
       },
       rightAxis: {
         enabled: false,
@@ -686,13 +785,14 @@ export default class statsViewOverview extends Component {
         minimumSignificantDigits: 1,
         type: 'regular',
         numberStyle: 'NoStyle',
-        maximumDecimalPlaces: 1
+        maximumDecimalPlaces: 0
       }
     };
 
 
     return (
       <View style={styles.container1}>
+      <View style={styles.card}>
         <View style={{margin:5}}>
           <ToggleContainer
             value={(this.state && this.state.timeFrame) || '5 Rounds'}
@@ -715,7 +815,24 @@ export default class statsViewOverview extends Component {
             )}
           />
           </View>
+          </View>
         <ScrollView style={styles.container2}>
+        <View style={styles.card}>
+        <View style={{flexDirection:'row', justifyContent:'flex-start', marginTop:20}}>
+          <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
+            <Text style={{color: 'black', fontSize: 20}}>    GIR</Text>
+          </View>
+        </View>
+        <View style={{justifyContent: 'space-around', margin:10}}>
+          <View style={{alignSelf: 'center'}}>
+            <LineChart config={configGIR} style={styles.chartSCM}/>
+          </View>
+        </View>
+        <View style={{alignItems:'center', marginBottom:20}}>
+          <Text>{this._getArrAvg(calculateGIRGIR)}% AVG</Text>
+        </View>
+        </View>
+        <View style={styles.card}>
           <View style={{flexDirection:'row', justifyContent:'flex-start', marginTop:20}}>
             <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
               <Text style={{color: 'black', fontSize: 20}}>    Total Putts Per Round</Text>
@@ -726,9 +843,11 @@ export default class statsViewOverview extends Component {
               <LineChart config={configPut} style={styles.chartSCM}/>
             </View>
           </View>
-          <View style={{alignItems:'center'}}>
+          <View style={{alignItems:'center', marginBottom:20}}>
             <Text>{this._getArrAvg(arrayPuttingAvg)} AVG</Text>
           </View>
+          </View>
+          <View style={styles.card}>
           <View style={{flexDirection:'row', justifyContent:'flex-start', marginTop:20}}>
             <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
               <Text style={{color: 'black', fontSize: 20}}>    Average Putts Per Round</Text>
@@ -739,9 +858,11 @@ export default class statsViewOverview extends Component {
               <LineChart config={configPutReal} style={styles.chartSCM}/>
             </View>
           </View>
-          <View style={{alignItems:'center'}}>
+          <View style={{alignItems:'center', marginBottom:20}}>
             <Text>{this._getArrAvg(arrayPuttingAvgReal)} AVG</Text>
           </View>
+          </View>
+          <View style={styles.card}>
           <View style={{flexDirection:'row', justifyContent:'flex-start', marginTop:20}}>
             <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
               <Text style={{color: 'black', fontSize: 20}}>    Average Score on Par 3</Text>
@@ -752,9 +873,11 @@ export default class statsViewOverview extends Component {
               <LineChart config={configPar3} style={styles.chartSCM}/>
             </View>
           </View>
-          <View style={{alignItems:'center'}}>
+          <View style={{alignItems:'center', marginBottom:20}}>
             <Text>{this._getArrAvg(arrayParAverageArray3)} AVG</Text>
           </View>
+          </View>
+          <View style={styles.card}>
           <View style={{flexDirection:'row', justifyContent:'flex-start', marginTop:20}}>
             <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
               <Text style={{color: 'black', fontSize: 20}}>    Average Score on Par 4</Text>
@@ -765,9 +888,11 @@ export default class statsViewOverview extends Component {
               <LineChart config={configPar4} style={styles.chartSCM}/>
             </View>
           </View>
-          <View style={{alignItems:'center'}}>
+          <View style={{alignItems:'center', marginBottom:20}}>
             <Text>{this._getArrAvg(arrayParAverageArray4)} AVG</Text>
           </View>
+          </View>
+          <View style={styles.card}>
           <View style={{flexDirection:'row', justifyContent:'flex-start', marginTop:20}}>
             <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
               <Text style={{color: 'black', fontSize: 20}}>    Average Score on Par 5</Text>
@@ -778,9 +903,11 @@ export default class statsViewOverview extends Component {
               <LineChart config={configPar5} style={styles.chartSCM}/>
             </View>
           </View>
-          <View style={{alignItems:'center'}}>
+          <View style={{alignItems:'center',marginBottom:20}}>
             <Text>{this._getArrAvg(arrayParAverageArray5)} AVG</Text>
           </View>
+          </View>
+          <View style={styles.card}>
           <View style={{flexDirection:'row', justifyContent:'flex-start', marginTop:20}}>
             <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
               <Text style={{color: 'black', fontSize: 20}}>    Up & Down per Round</Text>
@@ -791,8 +918,9 @@ export default class statsViewOverview extends Component {
               <LineChart config={configUpDown} style={styles.chartSCM}/>
             </View>
           </View>
-          <View style={{alignItems:'center'}}>
+          <View style={{alignItems:'center', marginBottom:20}}>
             <Text>{this._getArrAvg(upDownArray)} AVG</Text>
+          </View>
           </View>
         </ScrollView>
       </View>
@@ -802,8 +930,8 @@ export default class statsViewOverview extends Component {
 
 var styles = StyleSheet.create({
   chart: {
-    width:300,
-    height: 300,
+    width:200,
+    height: 200,
     backgroundColor: 'transparent',
     marginTop:20,
     flex: 1,
@@ -813,7 +941,7 @@ var styles = StyleSheet.create({
   },
   chartSCM: {
     width:300,
-    height: 300,
+    height: 200,
     backgroundColor: 'transparent',
     //marginTop:20,
     flex: 1,
@@ -825,7 +953,7 @@ var styles = StyleSheet.create({
     marginTop:65,
     flexDirection: 'column',
     flex: 1,
-    marginBottom:60
+    marginBottom:52
     //backgroundColor: '#fff'
   },
   container2: {
@@ -847,5 +975,21 @@ var styles = StyleSheet.create({
     height:1,
     backgroundColor: "#CCCCCC",
     margin: 15
-  }
+  },
+  card: {
+   flexDirection: 'column',
+   justifyContent: 'center',
+   //alignItems: 'center',
+   alignSelf:'stretch',
+   margin:10,
+   borderRadius:.5,
+   backgroundColor: 'white',
+   shadowColor: "black",
+   shadowOpacity: .5,
+   shadowRadius: 3,
+   shadowOffset: {
+     height: 0,
+     width: 0
+   },
+ }
 })

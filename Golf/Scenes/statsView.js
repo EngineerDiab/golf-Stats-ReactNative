@@ -18,19 +18,20 @@ import {
 } from 'react-native'
 
 export default class statsView extends Component {
-  constructor () {
-  super();
+  constructor (props) {
+  super(props);
   this.state = {
       par: 3,
       roundValue: '1',
-      holeNumber: 1,
+      holeNumber: Actions.lastHole,
       fullStroke: 0,
       halfStroke: 0,
       puts: 0,
       penalties:0,
       firstPutDistance:0,
       fairway:'On',
-      gir: true
+      gir: true,
+      lastHole: Actions.lastHole
     };
   }
 
@@ -110,9 +111,10 @@ export default class statsView extends Component {
 
 
   render(){
+    console.log(this.state.lastHole)
     return(
       <ScrollView style={styles.container}>
-      <View>
+      {/*<View>
         <Text
           style={{
             color: 'black',
@@ -124,7 +126,7 @@ export default class statsView extends Component {
           Hole Number: {this.state.holeNumber}
           </Text>
           <Slider
-            minimumValue={1}
+            minimumValue={0}
             maximumValue={18}
             value={1}
             step={1}
@@ -134,7 +136,7 @@ export default class statsView extends Component {
             onValueChange={(holeNumber) => this.setState({holeNumber})}
           />
       </View>
-      <View style={styles.seperator}></View>
+      <View style={styles.seperator}></View>*/}
       <View style={{flexDirection:'row', justifyContent:'space-around'}}>
         <View style={{flexDirection:'column'}}>
           <Text
@@ -145,14 +147,14 @@ export default class statsView extends Component {
               fontFamily: 'Helvetica Neue',
               alignSelf: 'center'
             }}>
-            Par: {this.state.par}
+            Hole: {this.state.holeNumber}
           </Text>
           <SimpleStepper
-            initialValue={3}
-            minimumValue={3}
-            maximumValue={5}
+            initialValue= {Actions.lastHole}
+            minimumValue={1}
+            maximumValue={18}
             stepValue={1}
-            valueChanged={(par => this.setState({par}))}>
+            valueChanged={(holeNumber => this.setState({holeNumber}))}>
           </SimpleStepper>
         </View>
         <View style={{flexDirection:'column'}}>

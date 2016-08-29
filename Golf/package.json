@@ -15,9 +15,12 @@
     "react-native-chart": "^1.0.1-beta",
     "react-native-device-info": "^0.9.3",
     "react-native-ios-charts": "^0.2.5",
+    "react-native-material-design": "^0.3.7",
     "react-native-router-flux": "^3.26.2",
     "react-native-simple-stepper": "^1.4.0",
     "react-native-slider": "^0.7.0",
+    "react-native-smart-badge": "^1.1.0",
+    "react-native-swipeout": "^2.0.12",
     "react-native-vector-icons": "^2.0.0",
     "realm": "^0.13.2"
   }

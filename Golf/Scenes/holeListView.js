@@ -7,6 +7,7 @@ import Button from 'apsl-react-native-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import DeviceInfo from 'react-native-device-info';
 import realm from './realm';
+var _ = require('lodash');
 import {
   Text,
   View,
@@ -69,13 +70,26 @@ export default class holeListView extends Component {
       }
     }
 
+    _check(){
+      var test = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0]
+      if(typeof test === "undefined"){
+        return 1
+      }
+      else{
+        var temp = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0').reverse()[0].holeID + 1
+        return temp
+      }
+      // console.log(test)
+      // console.log(realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0').reverse()[0].holeID + 1)
+    }
+
   constructor (props) {
   super(props);
   var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   this.state = {
     //round: realm.objects('Round').slice('0')[0].roundNumber.toString(),
     holeItems: realm.objects('Hole').filtered(`date == "${this._getDate()}" AND round == "${realm.objects('Round').slice('0')[0].roundNumber.toString()}"`).sorted('holeID').slice('0'),
-    dataSource: ds.cloneWithRows({})
+    dataSource: ds.cloneWithRows({}),
     };
     this.componentDidMount = this.componentDidMount.bind(this);
     //console.log(DeviceInfo.getModel())
@@ -104,7 +118,7 @@ export default class holeListView extends Component {
           onPress={() => Actions.stats({holeNumber: realRowID, holeNumberString: realRowIDString, round: this.state.round})}
           activeOpacity={75 / 100}
           underlayColor={"rgb(210,210,210)"}>
-          <View style={{padding:0}}>
+          <View style={styles.card}>
           <View style={{flexDirection:'column'}}>
             <View style={styles.row}>
               <View style={{flex:1}}>
@@ -128,12 +142,23 @@ export default class holeListView extends Component {
   }
 
   render(){
+    var checker = this._check()
+    console.log(this._check())
     newRound = (props) => {
-        let holesObjects = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0].round
-        var holesObjectsInt = parseInt(holesObjects, 10)
+        // if(realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0] === undefined){
+        //    var holesObjects;
+        // } else{
+        //   var holesObjects = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0].round
+        // }
 
-        console.log(holesObjectsInt)
-        if(holesObjects === null || undefined){
+        let holesObjects = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0]
+
+        // console.log("Date: " + realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0].date)
+        // console.log("this is holeObjects" + holesObjects)
+        // console.log("this is holeObjectsInt" + parseInt(holesObjects, 10))
+        //console.log(typeof holeObjectsInt)
+
+        if(typeof holesObjects === "undefined"){
            realm.write(() => {
              let round = realm.create('Round', {
                id: 1,
@@ -142,12 +167,15 @@ export default class holeListView extends Component {
            })
         }
         else{
+          var holesObjectsRound = holesObjects = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0].round
+          var holesObjectsInt = parseInt(holesObjectsRound, 10)
           realm.write(() => {
             let round = realm.create('Round', {
               id: 1,
               roundNumber: holesObjectsInt + 1,
             }, true);
           })
+          //console.log("second print:" + holeObjects)
         }
       }
     return(
@@ -196,7 +224,7 @@ export default class holeListView extends Component {
             <Button
             style={{backgroundColor: '#1a9274', borderColor: 'white'}}
             textStyle={{color: 'white'}}
-            onPress={() => Actions.stats()}
+            onPress={() => Actions.stats({lastHole: checker })}
             >
             New Hole
             </Button>
@@ -289,5 +317,21 @@ var styles = StyleSheet.create({
   textStyle:{
     fontSize: 15,
     // fontWeight: 'bold'
-  }
+  },
+  card: {
+   flexDirection: 'column',
+   justifyContent: 'center',
+   //alignItems: 'center',
+   alignSelf:'stretch',
+   margin:10,
+   borderRadius:.5,
+   backgroundColor: 'white',
+   shadowColor: "black",
+   shadowOpacity: .5,
+   shadowRadius: 3,
+   shadowOffset: {
+     height: 0,
+     width: 0
+   },
+ }
 })

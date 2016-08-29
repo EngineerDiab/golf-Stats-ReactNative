@@ -13,6 +13,7 @@ import {
   ListView,
   TouchableHighlight,
   StyleSheet,
+  Image,
   ScrollView
 } from 'react-native'
 
@@ -124,7 +125,10 @@ export default class statsViewOverview extends Component {
     }
 
     _calculateUpAndDown(){
-      return(realm.objects('Hole').filtered(`date == "${this.props.date}" AND round == "${this.props.round}" AND halfStroke >= ${1} AND puts==${1}`).slice('0').length)
+
+      var a  = realm.objects('Hole').filtered(`date == "${this.props.date}" AND round == "${this.props.round}" AND halfStroke >= ${1} AND puts==${1}`).slice('0').length
+      var b = realm.objects('Hole').filtered(`date == "${this.props.date}" AND round == "${this.props.round}" AND halfStroke >= ${1} AND puts>=${1}`).slice('0').length
+      return (Math.round(a/b * 100))
     }
 
     _calculateTendancy(location){
@@ -157,12 +161,13 @@ export default class statsViewOverview extends Component {
     var overPuts = realm.objects('Hole').filtered(`date == "${this.props.date}" AND round == "${this.props.round}"`).slice('0').length - (zeroPuts+onePuts+twoPuts+threePuts)
     //Up and Down
     var upAndDown = this._calculateUpAndDown()
-    console.log(scoringAvg3)
+    var upAndDownTotal = realm.objects('Hole').filtered(`date == "${this.props.date}" AND round == "${this.props.round}" AND halfStroke >= ${1} AND puts>=${1}`).slice('0').length
+    var upAndDownAchieved = realm.objects('Hole').filtered(`date == "${this.props.date}" AND round == "${this.props.round}" AND halfStroke >= ${1} AND puts==${1}`).slice('0').length
 
     const configGIR = {
       dataSets: [{
         values: [valueGIR,100-valueGIR],
-        colors: ['#F27852', '#1a9274'],
+        colors: ['#1a9274','#F27852'],
         drawValues:false
         //label: 'Green In Regulation'
       }],
@@ -187,7 +192,7 @@ export default class statsViewOverview extends Component {
     const configFairway = {
       dataSets: [{
         values: [tendancyOn,tendancyLeft+tendancyRight],
-        colors: ['#F27852', '#1a9274'],
+        colors: ['#1a9274','#F27852'],
         drawValues:false
         //label: 'Green In Regulation'
       }],
@@ -209,14 +214,41 @@ export default class statsViewOverview extends Component {
       //usePercentValuesEnabled: true,
       maxAngle: 360,
     };
+
+    const configUpAndDown = {
+      dataSets: [{
+        values: [upAndDown,100 - upAndDown],
+        colors: ['#1a9274','#F27852'],
+        drawValues:false
+        //label: 'Green In Regulation'
+      }],
+      rotationEnabled: false,
+      userInteractionEnabled: false,
+      backgroundColor: 'transparent',
+      pinchZoomEnabled: false,
+      doubleTapToZoomEnabled: false,
+      drawHoleEnabled:true,
+      animation:({
+        xAxisDuration: 3,
+        yAxisDuration: 3,
+        easingOption: 'easeInOutCubic'
+      }),
+      //labels: ['GIR', 'Not GIR'],
+      //drawHoleEnabled: true,
+      centerText: `${upAndDown}%`,
+      // drawSliceTextEnabled: false,
+      //usePercentValuesEnabled: true,
+      maxAngle: 360,
+    };
+
     const configSCM = {
       dataSets: [{
         values: valueSCM.reverse(),
-        colors:['#F27852'],
+        colors:['#1a9274'],
         valueTextFontSize: 12,
       }],
       userInteractionEnabled:false,
-      backgroundColor: 'transparent',
+      backgroundColor: 'white',
       pinchZoomEnabled: false,
       doubleTapToZoomEnabled: false,
       labels: ['Quad+', 'Triple Bogie', 'Double Bogie', 'Bogie', 'Par', 'Birdie', 'Eagle'],
@@ -244,8 +276,45 @@ export default class statsViewOverview extends Component {
       }),
     };
 
+    const configSCM2 = {
+      dataSets: [{
+        values: [overPuts, threePuts, twoPuts, onePuts, zeroPuts],
+        colors:['#1a9274'],
+        valueTextFontSize: 12,
+      }],
+      userInteractionEnabled:false,
+      backgroundColor: 'white',
+      pinchZoomEnabled: false,
+      doubleTapToZoomEnabled: false,
+      labels: ['4+ Putt', '3 Putt', '2 Putt', '1 Putt', 'No Putt'],
+      showLegend: false,
+      minOffset: 20,
+      xAxis: {
+        axisLineWidth: 0,
+        position: 'bottom',
+        drawGridLines:false
+      },
+      leftAxis: {
+        spaceTop: 0.18,
+        drawGridLines:false,
+        drawLabels:false,
+        axisLineWidth:0
+      },
+      rightAxis: {
+        enabled: false,
+        drawGridLines: false
+      },
+      animation:({
+        xAxisDuration: 0,
+        yAxisDuration: 4,
+        easingOption: 'easeInOutCubic'
+      }),
+    };
+
     return (
+      // <Image source={require('./cork_board.jpg')} style={styles.backgroundImage}>
       <ScrollView style={styles.container1}>
+      <View style={styles.card}>
         <View style={{flexDirection:'row', justifyContent:'flex-start', marginTop:20}}>
           <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
             <Text style={{color: 'black', fontSize: 20}}>    Scoring Average</Text>
@@ -257,7 +326,7 @@ export default class statsViewOverview extends Component {
           </View>
         </View>
         <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-          <View style={{flexDirection:'column', alignItems:'center'}}>
+          <View style={{flexDirection:'column', alignItems:'center', marginBottom:20}}>
             <View>
               <Text>Par 3</Text>
             </View>
@@ -282,143 +351,118 @@ export default class statsViewOverview extends Component {
             </View>
           </View>
         </View>
-        <View style={styles.containerSection}>
-          <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
-            <Text style={{color: 'black', fontSize: 20}}>    Accuracy</Text>
-          </View>
-          <View style={{margin:20, alignItems:'center'}}>
-            <Text>Greens In Regulation</Text>
-          </View>
-          <View style={{justifyContent: 'space-around'}}>
-            <View style={{alignSelf: 'center'}}>
-              <PieChart config={configGIR} style={styles.chart}/>
-            </View>
-          </View>
-          <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-            <View>
-              <Text>{totalHoles} Holes</Text>
-            </View>
-            <View>
-              <Text>{getGIR} GIR</Text>
-            </View>
-            <View>
-              <Text>{totalHoles - getGIR} Not-GIR</Text>
-            </View>
-          </View>
-          <View style={styles.seperator}></View>
-          <View style={{margin:20, alignItems:'center'}}>
-            <Text>Fairway Tendency</Text>
-          </View>
-          <View style={{justifyContent: 'space-around'}}>
-            <View style={{alignSelf: 'center'}}>
-              <PieChart config={configFairway} style={styles.chart}/>
-            </View>
-          </View>
-          <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-            <View>
-              <Text>{tendancyLeft} Left</Text>
-            </View>
-            <View>
-              <Text>{tendancyOn} On</Text>
-            </View>
-            <View>
-              <Text>{tendancyRight} Right</Text>
-            </View>
-          </View>
-          <View style={styles.seperator}></View>
-          <View style={{alignItems:'center', flexDirection:'column'}}>
-            <View style={{margin:20}}>
-              <Text>Average Hole Proximity</Text>
-            </View>
-            <View>
-              <Text>{avgHoleProx} feet</Text>
-            </View>
-          </View>
+        </View>
+        <View style={styles.card}>
           <View style={styles.containerSection}>
             <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
-              <Text style={{color: 'black', fontSize: 20}}>    Putting</Text>
+              <Text style={{color: 'black', fontSize: 20}}>    Accuracy</Text>
+            </View>
+            <View style={{margin:20, alignItems:'center'}}>
+              <Text>Greens In Regulation</Text>
+            </View>
+            <View style={{justifyContent: 'space-around'}}>
+              <View style={{alignSelf: 'center'}}>
+                <PieChart config={configGIR} style={styles.chart}/>
+              </View>
             </View>
             <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-              <View style={{alignItems:'center', flexDirection:'column'}}>
-                <View style={{margin:20}}>
-                  <Text>Total Putts</Text>
-                </View>
-                <View>
-                  <Text>{totalPutsPerRound}</Text>
-                </View>
+              <View>
+                <Text>{totalHoles} Holes</Text>
               </View>
-              <View style={{alignItems:'center', flexDirection:'column'}}>
-                <View style={{margin:20}}>
-                  <Text>Putting Average</Text>
-                </View>
-                <View>
-                  <Text>{Math.round(totalPutsPerRoundAvg*100)/100}</Text>
-                </View>
+              <View>
+                <Text>{getGIR} GIR</Text>
+              </View>
+              <View>
+                <Text>{totalHoles - getGIR} Not-GIR</Text>
               </View>
             </View>
             <View style={styles.seperator}></View>
-            <View style={{alignSelf:'center', margin:20}}>
-              <Text>Number of 0,1,2,3,4+ putts</Text>
+            <View style={{margin:20, alignItems:'center'}}>
+              <Text>Fairway Tendency</Text>
+            </View>
+            <View style={{justifyContent: 'space-around'}}>
+              <View style={{alignSelf: 'center'}}>
+                <PieChart config={configFairway} style={styles.chart}/>
+              </View>
             </View>
             <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-              <View style={{alignItems:'center', flexDirection:'column'}}>
-                <View style={{margin:5}}>
-                  <Text>0</Text>
-                </View>
-                <View>
-                  <Text>{zeroPuts}</Text>
-                </View>
+              <View>
+                <Text>{tendancyLeft} Left</Text>
               </View>
-              <View style={{alignItems:'center', flexDirection:'column'}}>
-                <View style={{margin:5}}>
-                  <Text>1</Text>
-                </View>
-                <View>
-                  <Text>{onePuts}</Text>
-                </View>
+              <View>
+                <Text>{tendancyOn} On</Text>
               </View>
-              <View style={{alignItems:'center', flexDirection:'column'}}>
-                <View style={{margin:5}}>
-                  <Text>2</Text>
-                </View>
-                <View>
-                  <Text>{twoPuts}</Text>
-                </View>
-              </View>
-              <View style={{alignItems:'center', flexDirection:'column'}}>
-                <View style={{margin:5}}>
-                  <Text>3</Text>
-                </View>
-                <View>
-                  <Text>{threePuts}</Text>
-                </View>
-              </View>
-              <View style={{alignItems:'center', flexDirection:'column'}}>
-                <View style={{margin:5}}>
-                  <Text>4+</Text>
-                </View>
-                <View>
-                  <Text>{overPuts}</Text>
-                </View>
+              <View>
+                <Text>{tendancyRight} Right</Text>
               </View>
             </View>
+            <View style={styles.seperator}></View>
+            <View style={{alignItems:'center', flexDirection:'column'}}>
+              <View style={{margin:20}}>
+                <Text>Average Hole Proximity</Text>
+              </View>
+              <View style={{marginBottom:20}}>
+                <Text>{avgHoleProx} feet</Text>
+              </View>
+            </View>
+            </View>
+          </View>
+          <View style={styles.card}>
+            <View style={styles.containerSection}>
+              <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
+                <Text style={{color: 'black', fontSize: 20}}>    Putting</Text>
+              </View>
+              <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+                <View style={{alignItems:'center', flexDirection:'column'}}>
+                  <View style={{margin:20}}>
+                    <Text>Total Putts</Text>
+                  </View>
+                  <View>
+                    <Text>{totalPutsPerRound}</Text>
+                  </View>
+                </View>
+                <View style={{alignItems:'center', flexDirection:'column'}}>
+                  <View style={{margin:20}}>
+                    <Text>Putting Average</Text>
+                  </View>
+                  <View>
+                    <Text>{Math.round(totalPutsPerRoundAvg*100)/100}</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.seperator}></View>
+              <View style={{justifyContent: 'space-around', margin:10}}>
+                <View style={{alignSelf: 'center'}}>
+                  <HorizontalBarChart config={configSCM2} style={styles.chartSCM}/>
+                </View>
+              </View>
+              </View>
+            </View>
+            <View style={styles.card}>
             <View style={styles.containerSection}>
               <View style={{alignSelf: 'flex-start', borderRadius:2, borderColor:'black', borderBottomWidth:1}}>
                 <Text style={{color: 'black', fontSize: 20}}>    Up & Down</Text>
               </View>
-              <View style={{alignItems:'center', flexDirection:'column'}}>
-                <View style={{margin:20}}>
-                  <Text>Total Up & Down</Text>
-                </View>
-                <View>
-                  <Text>{upAndDown}</Text>
-                </View>
+              <View style={{alignSelf: 'center'}}>
+                <PieChart config={configUpAndDown} style={styles.chart}/>
               </View>
             </View>
-            <View style={{height:50}}></View>
+            <View style={{flexDirection:'row', justifyContent:'space-around', marginBottom:20}}>
+              <View>
+                <Text>{upAndDownTotal} Opportunities</Text>
+              </View>
+              <View>
+                <Text>{upAndDownAchieved} Achieved</Text>
+              </View>
+              <View>
+                <Text>{upAndDownTotal - upAndDownAchieved} Missed</Text>
+              </View>
+            </View>
+            {/*<View style={{height:50}}></View>*/}
           </View>
-        </View>
+
       </ScrollView>
+      // </Image>
     );
   }
 }
@@ -463,5 +507,25 @@ var styles = StyleSheet.create({
     height:1,
     backgroundColor: "#CCCCCC",
     margin: 15
-  }
+  },
+  backgroundImage: {
+    flex: 1,
+    alignSelf: 'stretch',
+    width: null,
+  },
+  card: {
+   flexDirection: 'column',
+   justifyContent: 'center',
+   //alignItems: 'center',
+   alignSelf:'stretch',
+   margin:10,
+   backgroundColor: 'white',
+   shadowColor: "black",
+   shadowOpacity: 0.3,
+   shadowRadius: 3,
+   shadowOffset: {
+     height: 0,
+     width: 0
+   },
+ },
 })
