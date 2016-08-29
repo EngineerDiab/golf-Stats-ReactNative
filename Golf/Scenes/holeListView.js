@@ -70,18 +70,18 @@ export default class holeListView extends Component {
       }
     }
 
-    _check(){
-      var test = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0]
-      if(typeof test === "undefined"){
-        return 1
-      }
-      else{
-        var temp = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0').reverse()[0].holeID + 1
-        return temp
-      }
-      // console.log(test)
-      // console.log(realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0').reverse()[0].holeID + 1)
-    }
+    // _check(){
+    //   var test = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0]
+    //   if(typeof test === "undefined"){
+    //     return 1
+    //   }
+    //   else{
+    //     var temp = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0').reverse()[0].holeID + 1
+    //     return temp
+    //   }
+    //   // console.log(test)
+    //   // console.log(realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0').reverse()[0].holeID + 1)
+    // }
 
   constructor (props) {
   super(props);
@@ -142,8 +142,8 @@ export default class holeListView extends Component {
   }
 
   render(){
-    var checker = this._check()
-    console.log(this._check())
+    //var checker = this._check()
+    //console.log("from hole list View: " + this._check())
     newRound = (props) => {
         // if(realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0] === undefined){
         //    var holesObjects;
@@ -224,7 +224,7 @@ export default class holeListView extends Component {
             <Button
             style={{backgroundColor: '#1a9274', borderColor: 'white'}}
             textStyle={{color: 'white'}}
-            onPress={() => Actions.stats({lastHole: checker })}
+            onPress={() => Actions.stats()}
             >
             New Hole
             </Button>

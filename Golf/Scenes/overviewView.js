@@ -164,7 +164,7 @@ export default class overviewView extends Component {
            height: 0,
            width: 0
          },
-         marginTop:5,
+         //marginTop:5,
          backgroundColor: (_getTotalScore()) - _getTotalPar() <= 0 ? '#e2b6b3' :'white'
        }}>
           <View style={styles.row}>

@@ -23,7 +23,7 @@ export default class statsView extends Component {
   this.state = {
       par: 3,
       roundValue: '1',
-      holeNumber: Actions.lastHole,
+      holeNumber: this._check(),
       fullStroke: 0,
       halfStroke: 0,
       puts: 0,
@@ -31,8 +31,21 @@ export default class statsView extends Component {
       firstPutDistance:0,
       fairway:'On',
       gir: true,
-      lastHole: Actions.lastHole
+      //lastHole: 1
     };
+  }
+
+  _check(){
+    var test = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0')[0]
+    if(typeof test === "undefined"){
+      return 1
+    }
+    else{
+      var temp = realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0').reverse()[0].holeID + 1
+      return temp
+    }
+    // console.log(test)
+    // console.log(realm.objects('Hole').filtered(`date == "${this._getDate()}"`).sorted('round', true).slice('0').reverse()[0].holeID + 1)
   }
 
   _getDate(){
@@ -111,9 +124,8 @@ export default class statsView extends Component {
 
 
   render(){
-    console.log(this.state.lastHole)
     return(
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
       {/*<View>
         <Text
           style={{
@@ -150,10 +162,12 @@ export default class statsView extends Component {
             Hole: {this.state.holeNumber}
           </Text>
           <SimpleStepper
-            initialValue= {Actions.lastHole}
+            initialValue= {this._check()}
             minimumValue={1}
             maximumValue={18}
             stepValue={1}
+            tintColor='#1a9274'
+            backgroundColor='white'
             valueChanged={(holeNumber => this.setState({holeNumber}))}>
           </SimpleStepper>
         </View>
@@ -173,85 +187,101 @@ export default class statsView extends Component {
             minimumValue={3}
             maximumValue={5}
             stepValue={1}
+            tintColor='#1a9274'
+            backgroundColor='white'
             valueChanged={(par => this.setState({par}))}>
           </SimpleStepper>
         </View>
-        {/*<Slider
-          minimumValue={3}
-          maximumValue={5}
-          value={3}
-          step={1}
-          minimumTrackTintColor='#1fb28a'
-          maximumTrackTintColor='#d3d3d3'
-          thumbTintColor='#1a9274'
-          onValueChange={(par) => this.setState({par})}
-        />*/}
       </View>
       <View style={styles.seperator}></View>
-      <View>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 16,
-            fontWeight: 'normal',
-            fontFamily: 'Helvetica Neue',
-            alignSelf:'center'
-          }}>
-          Full Strokes: {this.state.fullStroke}
-        </Text>
-        <Slider
-          minimumValue={0}
-          maximumValue={3}
-          step={1}
-          minimumTrackTintColor='#1fb28a'
-          maximumTrackTintColor='#d3d3d3'
-          thumbTintColor='#1a9274'
-          onValueChange={(fullStroke) => this.setState({fullStroke})}
-        />
+      <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+        <View style={{flexDirection:'column'}}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 16,
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica Neue',
+              alignSelf: 'center'
+            }}>
+            Full Strokes: {this.state.fullStroke}
+          </Text>
+          <SimpleStepper
+            initialValue= {0}
+            minimumValue={0}
+            maximumValue={8}
+            stepValue={1}
+            tintColor='#1a9274'
+            backgroundColor='white'
+            valueChanged={(fullStroke => this.setState({fullStroke}))}>
+          </SimpleStepper>
+        </View>
+        <View style={{flexDirection:'column'}}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 16,
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica Neue',
+              alignSelf: 'center'
+            }}>
+            Half Strokes: {this.state.halfStroke}
+          </Text>
+          <SimpleStepper
+            initialValue={0}
+            minimumValue={0}
+            maximumValue={8}
+            stepValue={1}
+            tintColor='#1a9274'
+            backgroundColor='white'
+            valueChanged={(halfStroke => this.setState({halfStroke}))}>
+          </SimpleStepper>
+        </View>
       </View>
-      <View style={styles.seperator}></View>
-      <View>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 16,
-            fontWeight: 'normal',
-            fontFamily: 'Helvetica Neue',
-            alignSelf:'center'
-          }}>
-          Half Strokes: {this.state.halfStroke}
-        </Text>
-        <Slider
-          minimumValue={0}
-          maximumValue={3}
-          step={1}
-          minimumTrackTintColor='#1fb28a'
-          maximumTrackTintColor='#d3d3d3'
-          thumbTintColor='#1a9274'
-          onValueChange={(halfStroke) => this.setState({halfStroke})}
-        />
-      </View>
-      <View style={styles.seperator}></View>
-      <View>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 16,
-            fontWeight: 'normal',
-            fontFamily: 'Helvetica Neue',
-            alignSelf:'center'
-          }}>
-          Puts: {this.state.puts}
-        </Text>
-        <Slider
-          minimumValue={0}
-          maximumValue={30}
-          step={1}
-          minimumTrackTintColor='#1fb28a'
-          maximumTrackTintColor='#d3d3d3'
-          thumbTintColor='#1a9274'
-          onValueChange={(puts) => this.setState({puts})}
-        />
+      <View style={styles.seperator1}></View>
+      <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+        <View style={{flexDirection:'column'}}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 16,
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica Neue',
+              alignSelf: 'center',
+            }}>
+            Putts: {this.state.puts}
+          </Text>
+          <SimpleStepper
+            initialValue={0}
+            minimumValue={0}
+            maximumValue={8}
+            stepValue={1}
+            tintColor='#1a9274'
+            backgroundColor='white'
+            valueChanged={(puts => this.setState({puts}))}>
+          </SimpleStepper>
+        </View>
+        <View style={{flexDirection:'column'}}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 16,
+              fontWeight: 'normal',
+              fontFamily: 'Helvetica Neue',
+              alignSelf: 'center',
+            }}>
+            Penalties: {this.state.penalties}
+          </Text>
+          <SimpleStepper
+            initialValue={0}
+            minimumValue={0}
+            maximumValue={8}
+            stepValue={1}
+            tintColor='#1a9274'
+            backgroundColor='white'
+            valueChanged={(penalties => this.setState({penalties}))}>
+          </SimpleStepper>
+        </View>
       </View>
       <View style={styles.seperator}></View>
       <View>
@@ -277,32 +307,10 @@ export default class statsView extends Component {
       </View>
       <View style={styles.seperator}></View>
       <View>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 16,
-            fontWeight: 'normal',
-            fontFamily: 'Helvetica Neue',
-            alignSelf:'center'
-          }}>
-          Penalties: {this.state.penalties}
-        </Text>
-        <Slider
-          minimumValue={0}
-          maximumValue={3}
-          step={1}
-          minimumTrackTintColor='#1fb28a'
-          maximumTrackTintColor='#d3d3d3'
-          thumbTintColor='#1a9274'
-          onValueChange={(penalties) => this.setState({penalties})}
-        />
-      </View>
-      <View style={styles.seperator}></View>
-      <View>
         <ToggleContainer
           value={(this.state && this.state.fairway) || 'On'}
           options={['Left', 'On', 'Right']}
-          style={{padding: 1}}
+          style={{padding: 10, height:75}}
           orientation={"horizontal"}
           spacing={10}
           renderItem={(option, active) => (
@@ -320,7 +328,7 @@ export default class statsView extends Component {
           )}
         />
         </View>
-        <View>
+        <View style={{marginTop:20}}>
           <Button
           style={{backgroundColor: '#058CFA', borderColor: 'white'}}
           textStyle={{color: 'white'}}
@@ -329,7 +337,7 @@ export default class statsView extends Component {
           Save Stats for hole {this.state.holeNumber}
           </Button>
       </View>
-      </ScrollView>
+      </View>
 
   )
   }
@@ -347,7 +355,16 @@ var styles = StyleSheet.create({
   },
   seperator:{
     height:1,
+    marginTop:15,
+    marginBottom:15,
     backgroundColor: "#CCCCCC"
+
+  },
+  seperator1:{
+    height:1,
+    marginTop:15,
+    marginBottom:15,
+    backgroundColor: "transparent"
 
   }
 })
