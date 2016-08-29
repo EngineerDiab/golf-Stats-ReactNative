@@ -1,0 +1,660 @@
+{
+	"liveValues": [
+		{
+			"range": {
+				"from": {
+					"line": 25,
+					"ch": 2
+				},
+				"to": {
+					"line": 25,
+					"ch": 0
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "BackgroundColor",
+			"group": "VIEW"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 32,
+					"ch": 28
+				},
+				"to": {
+					"line": 32,
+					"ch": 40
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "JustifyContent",
+			"type": "string",
+			"name": "JustifyContent",
+			"group": "VIEW 2"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 33,
+					"ch": 24
+				},
+				"to": {
+					"line": 33,
+					"ch": 33
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "AlignItems",
+			"type": "string",
+			"name": "AlignItems",
+			"group": "VIEW 2"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 46,
+					"ch": 21
+				},
+				"to": {
+					"line": 46,
+					"ch": 28
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "Color",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 47,
+					"ch": 24
+				},
+				"to": {
+					"line": 47,
+					"ch": 26
+				}
+			},
+			"type": "number",
+			"name": "FontSize",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 48,
+					"ch": 26
+				},
+				"to": {
+					"line": 48,
+					"ch": 34
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "FontWeight",
+			"type": "string",
+			"name": "FontWeight",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 49,
+					"ch": 26
+				},
+				"to": {
+					"line": 49,
+					"ch": 42
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "FontFamily",
+			"type": "string",
+			"name": "FontFamily",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 58,
+					"ch": 28
+				},
+				"to": {
+					"line": 58,
+					"ch": 40
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "JustifyContent",
+			"type": "string",
+			"name": "JustifyContent",
+			"group": "VIEW 2"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 59,
+					"ch": 24
+				},
+				"to": {
+					"line": 59,
+					"ch": 33
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "AlignItems",
+			"type": "string",
+			"name": "AlignItems",
+			"group": "VIEW 2"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 72,
+					"ch": 21
+				},
+				"to": {
+					"line": 72,
+					"ch": 28
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "Color",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 73,
+					"ch": 24
+				},
+				"to": {
+					"line": 73,
+					"ch": 26
+				}
+			},
+			"type": "number",
+			"name": "FontSize",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 74,
+					"ch": 26
+				},
+				"to": {
+					"line": 74,
+					"ch": 34
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "FontWeight",
+			"type": "string",
+			"name": "FontWeight",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 75,
+					"ch": 26
+				},
+				"to": {
+					"line": 75,
+					"ch": 42
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "FontFamily",
+			"type": "string",
+			"name": "FontFamily",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 84,
+					"ch": 28
+				},
+				"to": {
+					"line": 84,
+					"ch": 40
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "JustifyContent",
+			"type": "string",
+			"name": "JustifyContent",
+			"group": "VIEW 2"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 85,
+					"ch": 24
+				},
+				"to": {
+					"line": 85,
+					"ch": 33
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "AlignItems",
+			"type": "string",
+			"name": "AlignItems",
+			"group": "VIEW 2"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 98,
+					"ch": 21
+				},
+				"to": {
+					"line": 98,
+					"ch": 28
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "Color",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 99,
+					"ch": 24
+				},
+				"to": {
+					"line": 99,
+					"ch": 26
+				}
+			},
+			"type": "number",
+			"name": "FontSize",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 100,
+					"ch": 26
+				},
+				"to": {
+					"line": 100,
+					"ch": 34
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "FontWeight",
+			"type": "string",
+			"name": "FontWeight",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 101,
+					"ch": 26
+				},
+				"to": {
+					"line": 101,
+					"ch": 42
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "FontFamily",
+			"type": "string",
+			"name": "FontFamily",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 110,
+					"ch": 28
+				},
+				"to": {
+					"line": 110,
+					"ch": 40
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "JustifyContent",
+			"type": "string",
+			"name": "JustifyContent",
+			"group": "VIEW 2"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 111,
+					"ch": 24
+				},
+				"to": {
+					"line": 111,
+					"ch": 33
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "AlignItems",
+			"type": "string",
+			"name": "AlignItems",
+			"group": "VIEW 2"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 124,
+					"ch": 21
+				},
+				"to": {
+					"line": 124,
+					"ch": 28
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "Color",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 125,
+					"ch": 24
+				},
+				"to": {
+					"line": 125,
+					"ch": 26
+				}
+			},
+			"type": "number",
+			"name": "FontSize",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 126,
+					"ch": 26
+				},
+				"to": {
+					"line": 126,
+					"ch": 34
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "FontWeight",
+			"type": "string",
+			"name": "FontWeight",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 127,
+					"ch": 26
+				},
+				"to": {
+					"line": 127,
+					"ch": 42
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "FontFamily",
+			"type": "string",
+			"name": "FontFamily",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 136,
+					"ch": 28
+				},
+				"to": {
+					"line": 136,
+					"ch": 40
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "JustifyContent",
+			"type": "string",
+			"name": "JustifyContent",
+			"group": "VIEW 2"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 137,
+					"ch": 24
+				},
+				"to": {
+					"line": 137,
+					"ch": 33
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "AlignItems",
+			"type": "string",
+			"name": "AlignItems",
+			"group": "VIEW 2"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 150,
+					"ch": 21
+				},
+				"to": {
+					"line": 150,
+					"ch": 28
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "Color",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 151,
+					"ch": 24
+				},
+				"to": {
+					"line": 151,
+					"ch": 26
+				}
+			},
+			"type": "number",
+			"name": "FontSize",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 152,
+					"ch": 26
+				},
+				"to": {
+					"line": 152,
+					"ch": 34
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "FontWeight",
+			"type": "string",
+			"name": "FontWeight",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 153,
+					"ch": 26
+				},
+				"to": {
+					"line": 153,
+					"ch": 42
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": "FontFamily",
+			"type": "string",
+			"name": "FontFamily",
+			"group": "TEXT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 162,
+					"ch": 27
+				},
+				"to": {
+					"line": 162,
+					"ch": 29
+				}
+			},
+			"type": "number",
+			"name": "Padding",
+			"group": "TOGGLE CONTAINER"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 163,
+					"ch": 23
+				},
+				"to": {
+					"line": 163,
+					"ch": 35
+				}
+			},
+			"editWith": "dropdown",
+			"dropdownOptions": [
+				"horizontal",
+				"vertical"
+			],
+			"type": "string",
+			"name": "Orientation",
+			"group": "TOGGLE CONTAINER"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 164,
+					"ch": 19
+				},
+				"to": {
+					"line": 164,
+					"ch": 21
+				}
+			},
+			"type": "number",
+			"name": "Spacing",
+			"group": "TOGGLE CONTAINER"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 170,
+					"ch": 21
+				},
+				"to": {
+					"line": 170,
+					"ch": 38
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "Color",
+			"group": "TOGGLE ITEM"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 171,
+					"ch": 31
+				},
+				"to": {
+					"line": 171,
+					"ch": 49
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "BackgroundColor",
+			"group": "TOGGLE ITEM"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 172,
+					"ch": 27
+				},
+				"to": {
+					"line": 172,
+					"ch": 48
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "BorderColor",
+			"group": "TOGGLE ITEM"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 173,
+					"ch": 27
+				},
+				"to": {
+					"line": 173,
+					"ch": 48
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "ActiveColor",
+			"group": "TOGGLE ITEM"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 174,
+					"ch": 37
+				},
+				"to": {
+					"line": 174,
+					"ch": 54
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "ActiveBackgroundColor",
+			"group": "TOGGLE ITEM"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 175,
+					"ch": 28
+				},
+				"to": {
+					"line": 175,
+					"ch": 29
+				}
+			},
+			"type": "number",
+			"name": "BorderRadius",
+			"group": "TOGGLE ITEM"
+		}
+	]
+}
